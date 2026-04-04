@@ -1,3 +1,4 @@
+import 'package:deploystack/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class Loading extends StatelessWidget {
@@ -6,8 +7,9 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(),
+      child: CircularProgressIndicator(
+        color: AppColors.buttonColor,
+      ),
     );
   }
 }
-

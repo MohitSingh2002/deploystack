@@ -1,3 +1,4 @@
+import 'package:deploystack/core/theme/app_theme.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:deploystack/features/auth/presentation/pages/signup_page.dart';
 import 'package:deploystack/init_dependencies.dart';
@@ -24,10 +25,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'DeployStack',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: SignupPage(),
+      theme: AppTheme.theme,
+      home: SignUpPage(),
     );
   }
 }
