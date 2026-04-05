@@ -1,3 +1,4 @@
+import 'package:deploystack/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:deploystack/core/theme/app_theme.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:deploystack/features/auth/presentation/pages/signup_page.dart';
@@ -10,6 +11,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
         BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
       ],
       child: const MyApp(),

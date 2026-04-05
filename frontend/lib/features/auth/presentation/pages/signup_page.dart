@@ -1,10 +1,10 @@
 import 'package:deploystack/core/theme/app_colors.dart';
 import 'package:deploystack/core/utils/show_snackbar.dart';
-import 'package:deploystack/core/widgets/app_button.dart';
-import 'package:deploystack/core/widgets/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/common/widgets/app_button.dart';
+import '../../../../core/common/widgets/loading.dart';
 import '../bloc/auth_bloc/auth_bloc.dart';
 
 class SignUpPage extends StatefulWidget {

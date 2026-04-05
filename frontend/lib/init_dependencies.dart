@@ -1,3 +1,4 @@
+import 'package:deploystack/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:deploystack/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:deploystack/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:deploystack/features/auth/domain/repository/auth_repository.dart';
@@ -9,6 +10,8 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
+
+  serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
 
 void _initAuth() {
@@ -25,6 +28,9 @@ void _initAuth() {
   );
 
   serviceLocator.registerLazySingleton<AuthBloc>(
-      () => AuthBloc(userSignUp: serviceLocator())
+      () => AuthBloc(
+        userSignUp: serviceLocator(),
+        appUserCubit: serviceLocator(),
+      )
   );
 }
