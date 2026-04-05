@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:deploystack/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:deploystack/core/usecase/usecase.dart';
+import 'package:deploystack/features/auth/domain/usecases/current_user.dart';
 import 'package:deploystack/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:meta/meta.dart';
 
@@ -9,16 +11,19 @@ part 'auth_state.dart';
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   UserSignUp _userSignUp;
+  CurrentUser _currentUser;
   AppUserCubit _appUserCubit;
 
-  AuthBloc({required UserSignUp userSignUp, required AppUserCubit appUserCubit})
+  AuthBloc({required UserSignUp userSignUp, required CurrentUser currentUser, required AppUserCubit appUserCubit})
       : _userSignUp = userSignUp,
+      _currentUser = currentUser,
       _appUserCubit = appUserCubit,
   super(AuthInitial()) {
     on<AuthEvent>((event, emit) {
       emit(AuthLoading());
     });
     on<AuthSignUp>(_onAuthSignUp);
+    on<AuthIsUserLoggedInEvent>(_onAuthIsUserLoggedIn);
   }
 
   void _onAuthSignUp(AuthSignUp event, Emitter<AuthState> emit) async {
@@ -26,11 +31,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     res.fold(
         (failure) {
-          print(failure.message);
           emit(AuthFailure(message: failure.message));
         },
         (success) {
           _appUserCubit.updateUsername(username: event.name);
+          emit(AuthSuccess());
+        }
+    );
+  }
+
+  void _onAuthIsUserLoggedIn(AuthIsUserLoggedInEvent event, Emitter<AuthState> emit) async {
+    final res = await _currentUser.call(NoParams());
+
+    res.fold(
+        (failure) {
+          emit(AuthFailure(message: failure.message));
+        },
+        (success) {
+          _appUserCubit.updateUsername(username: success);
           emit(AuthSuccess());
         }
     );

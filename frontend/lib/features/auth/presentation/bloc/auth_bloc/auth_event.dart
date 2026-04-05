@@ -8,3 +8,5 @@ final class AuthSignUp extends AuthEvent {
 
   AuthSignUp({required this.name,});
 }
+
+final class AuthIsUserLoggedInEvent extends AuthEvent {}

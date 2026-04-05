@@ -20,4 +20,15 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(Failure(message: e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> currentUser() async {
+    try {
+      String res = await _authRemoteDataSource.currentUser();
+
+      return right(res);
+    } on ServerException catch (e) {
+      return left(Failure(message: e.message));
+    }
+  }
 }

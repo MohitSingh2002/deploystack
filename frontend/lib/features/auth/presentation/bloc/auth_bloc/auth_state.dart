@@ -14,3 +14,9 @@ final class AuthFailure extends AuthState {
 
   AuthFailure({required this.message,});
 }
+
+final class AuthIsUserLoggedIn extends AuthState {
+  final String username;
+
+  AuthIsUserLoggedIn({required this.username,});
+}

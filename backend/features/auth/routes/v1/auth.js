@@ -22,4 +22,19 @@ authRouter.post('/v1/sign-up', async (req, res) => {
     }
 });
 
+authRouter.get('/v1/get-user', async (req, res) => {
+    try {
+        const user = await User.findOne();
+
+        if (!user) {
+            res.status(500).json({ message: 'No user found' });
+            return;
+        }
+
+        res.status(200).json({ name: user.name });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 module.exports = authRouter;

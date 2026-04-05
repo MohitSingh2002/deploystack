@@ -2,6 +2,7 @@ import 'package:deploystack/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:deploystack/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:deploystack/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:deploystack/features/auth/domain/repository/auth_repository.dart';
+import 'package:deploystack/features/auth/domain/usecases/current_user.dart';
 import 'package:deploystack/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -27,9 +28,14 @@ void _initAuth() {
       () => UserSignUp(authRepository: serviceLocator())
   );
 
+  serviceLocator.registerFactory(
+      () => CurrentUser(authRepository: serviceLocator())
+  );
+
   serviceLocator.registerLazySingleton<AuthBloc>(
       () => AuthBloc(
         userSignUp: serviceLocator(),
+        currentUser: serviceLocator(),
         appUserCubit: serviceLocator(),
       )
   );

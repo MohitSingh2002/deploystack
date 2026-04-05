@@ -3,4 +3,6 @@ import 'package:fpdart/fpdart.dart';
 
 abstract interface class AuthRepository {
   Future<Either<Failure, bool>> signUp({required String name,});
+
+  Future<Either<Failure, String>> currentUser();
 }
