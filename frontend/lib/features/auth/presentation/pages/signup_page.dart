@@ -33,9 +33,9 @@ class _SignUpPageState extends State<SignUpPage> {
             showSnackBar(context: context, content: state.message,);
           }
 
-          if (state is AuthSuccess) {
-            print('Auth Success');
-          }
+          // if (state is AuthSuccess) {
+          //   print('Auth Success');
+          // }
         },
         builder: (context, state) {
           if (state is AuthLoading) {

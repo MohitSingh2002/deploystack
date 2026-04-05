@@ -3,7 +3,7 @@ import 'package:deploystack/core/common/widgets/loading.dart';
 import 'package:deploystack/core/theme/app_theme.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:deploystack/features/auth/presentation/pages/signup_page.dart';
-import 'package:deploystack/home_page.dart';
+import 'package:deploystack/features/home/presentation/pages/home_page.dart';
 import 'package:deploystack/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
