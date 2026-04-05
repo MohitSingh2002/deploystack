@@ -1,5 +1,8 @@
 import 'package:deploystack/core/common/widgets/app_button.dart';
 import 'package:deploystack/core/theme/app_colors.dart';
+import 'package:deploystack/features/home/presentation/components/home_page_docker_component.dart';
+import 'package:deploystack/features/home/presentation/components/home_page_github_component.dart';
+import 'package:deploystack/features/home/presentation/components/home_page_public_git_component.dart';
 import 'package:deploystack/features/home/presentation/widgets/home_page_card.dart';
 import 'package:deploystack/features/home/presentation/widgets/home_page_input_field.dart';
 import 'package:deploystack/features/home/presentation/widgets/home_page_side_item.dart';
@@ -83,94 +86,62 @@ class _HomePageState extends State<HomePage> {
 
               Expanded(
                 child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(30),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "Initialize New Deployment",
-                              style: TextStyle(
-                                color: AppColors.white,
-                                fontSize: 28,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            AppButton(
-                              onPressed: () {},
-                              buttonText: 'Deploy New',
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        const Text(
-                          "Select an origin source to provision a new instance.",
-                          style: TextStyle(color: AppColors.white54),
-                        ),
-
-                        const SizedBox(height: 30),
-
-                        HomeScreenChips(
-                          items: _deploymentItems,
-                          selectedIndex: _selectedIndex,
-                          onSelected: (index) {
-                            setState(() {
-                              _selectedIndex = index;
-                            });
-                          }
-                        ),
-
-                        const SizedBox(height: 20,),
-
-                        HomePageCard(
-                          showIcon: true,
-                          icon: FaIcon(FontAwesomeIcons.github, color: Colors.white, size: 75.0,),
-                          title: "Connect GitHub",
-                          description:
-                          "Continuous deployment from repositories.",
-                          child: AppButton(
-                            onPressed: () {},
-                            buttonText: 'Authorize GitHub Access',
-                          ),
-                        ),
-
-                        HomePageCard(
-                          title: "Docker Image",
-                          description:
-                          "Deploy containers from Docker Hub.",
-                          child: Column(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: MediaQuery.of(context).size.height,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              HomePageInputField(hint: "node:latest"),
-                              const SizedBox(height: 10),
+                              const Text(
+                                "Initialize New Deployment",
+                                style: TextStyle(
+                                  color: AppColors.white,
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                               AppButton(
                                 onPressed: () {},
-                                buttonText: 'Pull & Deploy',
+                                buttonText: 'Deploy New',
                               ),
                             ],
                           ),
-                        ),
-
-                        HomePageCard(
-                          title: "Public Git URL",
-                          description:
-                          "Deploy any public repository instantly.",
-                          child: Column(
-                            children: [
-                              HomePageInputField(hint: "https://github.com/user/repo.git"),
-                              const SizedBox(height: 10),
-                              AppButton(
-                                onPressed: () {},
-                                buttonText: 'Clone & Deploy',
-                              ),
-                            ],
+                    
+                          const SizedBox(height: 10),
+                    
+                          const Text(
+                            "Select an origin source to provision a new instance.",
+                            style: TextStyle(color: AppColors.white54),
                           ),
-                        ),
-                      ],
+                    
+                          const SizedBox(height: 30),
+                    
+                          HomeScreenChips(
+                            items: _deploymentItems,
+                            selectedIndex: _selectedIndex,
+                            onSelected: (index) {
+                              setState(() {
+                                _selectedIndex = index;
+                              });
+                            }
+                          ),
+                    
+                          const SizedBox(height: 20,),
+                    
+                          _selectedIndex == 0 ? HomePageGithubComponent() : SizedBox(),
+                    
+                          _selectedIndex == 1 ? HomePageDockerComponent() : SizedBox(),
+                    
+                          _selectedIndex == 2 ? HomePagePublicGitComponent() : SizedBox(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
