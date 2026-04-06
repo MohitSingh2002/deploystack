@@ -4,6 +4,11 @@ const userSchema = mongoose.Schema({
     name: {
         type: String,
         required: true
+    },
+    git: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Git',
+        default: null
     }
 });
 
