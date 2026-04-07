@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/common/widgets/app_button.dart';
-import '../widgets/home_page_card.dart';
-import '../widgets/home_page_input_field.dart';
+import '../../../../core/common/widgets/home/home_page_card.dart';
+import '../../../../core/common/widgets/home/home_page_input_field.dart';
 
 class HomePageDockerComponent extends StatelessWidget {
   const HomePageDockerComponent({super.key});

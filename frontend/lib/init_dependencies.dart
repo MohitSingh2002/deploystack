@@ -1,4 +1,9 @@
 import 'package:deploystack/core/common/cubits/app_user/app_user_cubit.dart';
+import 'package:deploystack/core/github_auth_checker/data/data_sources/github_auth_checker_remote_data_source.dart';
+import 'package:deploystack/core/github_auth_checker/data/repositories/github_auth_checker_repository_impl.dart';
+import 'package:deploystack/core/github_auth_checker/domain/repository/github_auth_checker_repository.dart';
+import 'package:deploystack/core/github_auth_checker/domain/usecases/check_if_github_app_installed.dart';
+import 'package:deploystack/core/github_auth_checker/presentation/bloc/git_authenticated/git_authenticated_bloc.dart';
 import 'package:deploystack/features/auth/data/data_sources/auth_remote_data_source.dart';
 import 'package:deploystack/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:deploystack/features/auth/domain/repository/auth_repository.dart';
@@ -11,6 +16,7 @@ final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
   _initAuth();
+  _initGithubAuth();
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
@@ -37,6 +43,26 @@ void _initAuth() {
         userSignUp: serviceLocator(),
         currentUser: serviceLocator(),
         appUserCubit: serviceLocator(),
+      )
+  );
+}
+
+void _initGithubAuth() {
+  serviceLocator.registerFactory<GithubAuthCheckerRemoteDataSource>(
+      () => GithubAuthCheckerRemoteDataSourceImpl()
+  );
+
+  serviceLocator.registerFactory<GithubAuthCheckerRepository>(
+      () => GithubAuthCheckerRepositoryImpl(githubAuthCheckerRemoteDataSource: serviceLocator())
+  );
+
+  serviceLocator.registerFactory(
+      () => CheckIfGithubAppInstalled(githubAuthCheckerRepository: serviceLocator())
+  );
+
+  serviceLocator.registerLazySingleton<GitAuthenticatedBloc>(
+      () => GitAuthenticatedBloc(
+        checkIfGithubAppInstalled: serviceLocator()
       )
   );
 }

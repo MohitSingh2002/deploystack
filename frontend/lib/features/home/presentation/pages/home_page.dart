@@ -1,15 +1,12 @@
 import 'package:deploystack/core/common/widgets/app_button.dart';
 import 'package:deploystack/core/theme/app_colors.dart';
 import 'package:deploystack/features/home/presentation/components/home_page_docker_component.dart';
-import 'package:deploystack/features/home/presentation/components/home_page_github_component.dart';
+import 'package:deploystack/features/git_auth/presentation/git_auth.dart';
 import 'package:deploystack/features/home/presentation/components/home_page_public_git_component.dart';
-import 'package:deploystack/features/home/presentation/widgets/home_page_card.dart';
-import 'package:deploystack/features/home/presentation/widgets/home_page_input_field.dart';
 import 'package:deploystack/features/home/presentation/widgets/home_page_side_item.dart';
 import 'package:deploystack/features/home/presentation/widgets/home_screen_chips.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../../../core/common/cubits/app_user/app_user_cubit.dart';
 
@@ -135,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                     
                           const SizedBox(height: 20,),
                     
-                          _selectedIndex == 0 ? HomePageGithubComponent() : SizedBox(),
+                          _selectedIndex == 0 ? GitAuth() : SizedBox(),
                     
                           _selectedIndex == 1 ? HomePageDockerComponent() : SizedBox(),
                     

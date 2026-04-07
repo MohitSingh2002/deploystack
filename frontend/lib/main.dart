@@ -1,5 +1,6 @@
 import 'package:deploystack/core/common/cubits/app_user/app_user_cubit.dart';
 import 'package:deploystack/core/common/widgets/loading.dart';
+import 'package:deploystack/core/github_auth_checker/presentation/bloc/git_authenticated/git_authenticated_bloc.dart';
 import 'package:deploystack/core/theme/app_theme.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:deploystack/features/auth/presentation/pages/signup_page.dart';
@@ -15,6 +16,7 @@ void main() async {
         providers: [
           BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
           BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
+          BlocProvider(create: (_) => serviceLocator<GitAuthenticatedBloc>()),
         ],
         child: const MyApp(),
       )
@@ -35,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
 
     context.read<AuthBloc>().add(AuthIsUserLoggedInEvent());
+    context.read<GitAuthenticatedBloc>().add(IsGitAuthenticatedEvent());
   }
 
   @override
