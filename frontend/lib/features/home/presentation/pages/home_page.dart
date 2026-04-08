@@ -1,5 +1,6 @@
 import 'package:deploystack/core/common/widgets/app_button.dart';
 import 'package:deploystack/core/theme/app_colors.dart';
+import 'package:deploystack/features/git_deployment/presentation/git_deployment.dart';
 import 'package:deploystack/features/home/presentation/components/home_page_docker_component.dart';
 import 'package:deploystack/features/git_auth/presentation/git_auth.dart';
 import 'package:deploystack/features/home/presentation/components/home_page_public_git_component.dart';
@@ -93,22 +94,13 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text(
-                                "Initialize New Deployment",
-                                style: TextStyle(
-                                  color: AppColors.white,
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              AppButton(
-                                onPressed: () {},
-                                buttonText: 'Deploy New',
-                              ),
-                            ],
+                          const Text(
+                            "Initialize New Deployment",
+                            style: TextStyle(
+                              color: AppColors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                     
                           const SizedBox(height: 10),
@@ -133,7 +125,8 @@ class _HomePageState extends State<HomePage> {
                           const SizedBox(height: 20,),
                     
                           _selectedIndex == 0 ? GitAuth() : SizedBox(),
-                    
+                          _selectedIndex == 0 ? GitDeployment() : SizedBox(),
+
                           _selectedIndex == 1 ? HomePageDockerComponent() : SizedBox(),
                     
                           _selectedIndex == 2 ? HomePagePublicGitComponent() : SizedBox(),
