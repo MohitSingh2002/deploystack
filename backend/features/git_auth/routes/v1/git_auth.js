@@ -11,8 +11,8 @@ gitAuthRouter.get('/v1/git-auth', async (req, res) => {
     }
 
     // TODO : Un-comment the below line
-    // const BASE_URL = `${req.protocol}://${req.get('host')}`;
-    const BASE_URL = 'https://8ffa-2409-4090-a011-380e-14c4-66f1-5251-b587.ngrok-free.app';
+    const BASE_URL = `${req.protocol}://${req.get('host')}`;
+    // const BASE_URL = 'https://8ffa-2409-4090-a011-380e-14c4-66f1-5251-b587.ngrok-free.app';
 
     const manifest = {
     name: "DeployStack" + Math.floor(1000000000 + Math.random() * 9000000000),

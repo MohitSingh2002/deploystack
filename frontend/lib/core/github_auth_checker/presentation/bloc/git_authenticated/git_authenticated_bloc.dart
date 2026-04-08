@@ -17,6 +17,7 @@ class GitAuthenticatedBloc extends Bloc<GitAuthenticatedEvent, GitAuthenticatedS
       emit(GitAuthenticatedLoadingState());
     });
     on<IsGitAuthenticatedEvent>(_onIsGitAuthenticated);
+    on<GitConnectionSuccessfulEvent>(_onGitConnectionSuccessful);
   }
 
   void _onIsGitAuthenticated(IsGitAuthenticatedEvent event, Emitter emit) async {
@@ -30,5 +31,9 @@ class GitAuthenticatedBloc extends Bloc<GitAuthenticatedEvent, GitAuthenticatedS
         emit(IsGitAuthenticatedState(isAuthenticated: success));
       }
     );
+  }
+
+  void _onGitConnectionSuccessful(GitConnectionSuccessfulEvent event, Emitter emit) {
+    emit(IsGitAuthenticatedState(isAuthenticated: true));
   }
 }

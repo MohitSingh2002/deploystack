@@ -9,7 +9,7 @@ gitAuthenticationRouter.get("/github/callback", async (req, res) => {
   const code = req.query.code;
 
   if (!code) {
-    return res.send("❌ No code received from GitHub");
+    return res.send("No code received from GitHub");
   }
 
   try {
@@ -44,7 +44,7 @@ gitAuthenticationRouter.get("/github/callback", async (req, res) => {
     return res.redirect(`https://github.com/apps/${data.slug}/installations/new`);
   } catch (error) {
     console.error(error.response?.data || error.message);
-    res.send("❌ Error creating GitHub App");
+    res.send("Error creating GitHub App");
   }
 });
 
@@ -60,7 +60,7 @@ gitAuthenticationRouter.get("/setup", async (req, res) => {
         { new: true, upsert: true }
     );
 
-    return res.redirect('http://localhost:65317/');
+    return res.redirect('http://localhost:57395/');
 });
 
 // Optional: Webhook receiver

@@ -4,6 +4,7 @@ import 'package:deploystack/core/github_auth_checker/presentation/bloc/git_authe
 import 'package:deploystack/core/theme/app_theme.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:deploystack/features/auth/presentation/pages/signup_page.dart';
+import 'package:deploystack/features/git_auth/presentation/bloc/git_auth/git_auth_bloc.dart';
 import 'package:deploystack/features/home/presentation/pages/home_page.dart';
 import 'package:deploystack/init_dependencies.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ void main() async {
           BlocProvider(create: (_) => serviceLocator<AppUserCubit>()),
           BlocProvider(create: (_) => serviceLocator<AuthBloc>()),
           BlocProvider(create: (_) => serviceLocator<GitAuthenticatedBloc>()),
+          BlocProvider(create: (_) => serviceLocator<GitAuthBloc>()),
         ],
         child: const MyApp(),
       )
