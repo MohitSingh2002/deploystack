@@ -4,3 +4,9 @@ part of 'git_deployment_bloc.dart';
 sealed class GitDeploymentEvent {}
 
 final class GitDeploymentFetchRepositoriesEvent extends GitDeploymentEvent {}
+
+final class GitDeploymentFetchRepositoryBranchesEvent extends GitDeploymentEvent {
+  final GitHubRepo gitHubRepo;
+
+  GitDeploymentFetchRepositoryBranchesEvent({required this.gitHubRepo,});
+}

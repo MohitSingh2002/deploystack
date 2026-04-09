@@ -9,6 +9,7 @@ const gitAuthRouter = require('./features/git_auth/routes/v1/git_auth');
 const gitAuthenticationRouter = require('./features/git_auth/routes/authentication/git_authentication');
 const gitAuthCheckRouter = require('./features/git_auth/routes/authentication/git_auth_check');
 const githubRepositoriesRouter = require('./features/github_repositories/routes/v1/github_repositories');
+const githubBranchesRouter = require('./features/github_repositories/routes/v1/github_branches');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use('/api', gitAuthRouter);
 app.use(gitAuthenticationRouter);
 app.use('/api', gitAuthCheckRouter);
 app.use('/api', githubRepositoriesRouter);
+app.use('/api', githubBranchesRouter);
 
 const PORT = 5001;
 

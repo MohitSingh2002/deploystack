@@ -22,6 +22,9 @@ import 'package:deploystack/features/git_deployment/domain/usecases/fetch_user_g
 import 'package:deploystack/features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+import 'features/git_deployment/data/data_sources/git_hub_repo_branch_remote_data_source.dart';
+import 'features/git_deployment/domain/usecases/fetch_github_repository_branches.dart';
+
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
@@ -104,17 +107,29 @@ void _initGitDeployment() {
       () => GitHubRepoRemoteDataSourceImpl()
   );
 
+  serviceLocator.registerFactory<GitHubRepoBranchRemoteDataSource>(
+      () => GitHubRepoBranchRemoteDataSourceImpl()
+  );
+
   serviceLocator.registerFactory<GitDeploymentRepository>(
-      () => GitDeploymentRepositoryImpl(gitHubRepoRemoteDataSource: serviceLocator())
+      () => GitDeploymentRepositoryImpl(
+          gitHubRepoRemoteDataSource: serviceLocator(),
+          gitHubRepoBranchRemoteDataSource: serviceLocator(),
+      )
   );
 
   serviceLocator.registerFactory(
       () => FetchUserGithubRepositories(gitDeploymentRepository: serviceLocator())
   );
 
+  serviceLocator.registerFactory(
+      () => FetchGithubRepositoryBranches(gitDeploymentRepository: serviceLocator())
+  );
+
   serviceLocator.registerLazySingleton<GitDeploymentBloc>(
       () => GitDeploymentBloc(
-        fetchUserGithubRepositories: serviceLocator()
+        fetchUserGithubRepositories: serviceLocator(),
+        fetchGithubRepositoryBranches: serviceLocator(),
       )
   );
 }

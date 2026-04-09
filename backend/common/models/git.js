@@ -24,6 +24,10 @@ const gitSchema = mongoose.Schema({
     installationId: {
         type: String,
         default: ''
+    },
+    installationToken: {
+        type: String,
+        default: ''
     }
 });
 

@@ -2,7 +2,9 @@ import 'package:deploystack/core/common/widgets/app_button.dart';
 import 'package:deploystack/core/theme/app_colors.dart';
 import 'package:deploystack/core/utils/show_snackbar.dart';
 import 'package:deploystack/features/git_deployment/domain/entities/git_hub_repo.dart';
+import 'package:deploystack/features/git_deployment/domain/entities/git_hub_repo_branch.dart';
 import 'package:deploystack/features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
+import 'package:deploystack/features/git_deployment/presentation/widgets/git_deployment_drop_down.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +20,7 @@ class GitDeployment extends StatefulWidget {
 
 class _GitDeploymentState extends State<GitDeployment> {
   GitHubRepo? selectedRepo;
+  GitHubRepoBranch? selectedRepoBranch;
 
   @override
   void initState() {
@@ -73,47 +76,62 @@ class _GitDeploymentState extends State<GitDeployment> {
 
                     const SizedBox(height: 12),
 
-                    Container(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: AppColors.backgroundColor,
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppColors.white12),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<GitHubRepo>(
-                          dropdownColor: AppColors.cardPrimaryColor,
-                          value: selectedRepo,
-                          hint: const Text(
-                            "Select Repository",
-                            style: TextStyle(color: AppColors.white54),
+                    GitDeploymentDropDown<GitHubRepo>(
+                      label: 'Select Repository',
+                      selectedItem: selectedRepo,
+                      itemList: state.gitHubRepoList.map((repo) {
+                        return DropdownMenuItem(
+                          value: repo,
+                          child: Text(
+                            repo.fullName,
+                            style: const TextStyle(color: AppColors.white),
                           ),
-                          icon: const Icon(Icons.keyboard_arrow_down,
-                              color: AppColors.white54),
-                          isExpanded: true,
-                          items: state.gitHubRepoList.map((repo) {
-                            return DropdownMenuItem(
-                              value: repo,
-                              child: Text(
-                                repo.fullName,
-                                style: const TextStyle(color: AppColors.white),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              selectedRepo = value;
-                            });
-                          },
-                        ),
-                      ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRepo = value;
+                          // selectedRepoBranch = GitHubRepoBranch(name: value!.defaultBranch,);
+                        });
+                        context.read<GitDeploymentBloc>().add(
+                            GitDeploymentFetchRepositoryBranchesEvent(
+                              gitHubRepo: selectedRepo!,));
+                      },
                     ),
 
-                    const SizedBox(height: 20),
+                    state.isFetchingBranches ? Container(
+                      margin: EdgeInsets.only(top: 20.0,),
+                      child: Loading(),
+                    ) : SizedBox(),
+
+                    state.gitHubRepoBranchList == null ? SizedBox() : const SizedBox(height: 20.0,),
+
+                    state.gitHubRepoBranchList == null ? SizedBox() : GitDeploymentDropDown<GitHubRepoBranch>(
+                      label: 'Select Branch',
+                      selectedItem: selectedRepoBranch,
+                      itemList: state.gitHubRepoBranchList!.map((repo) {
+                        return DropdownMenuItem(
+                          value: repo,
+                          child: Text(
+                            repo.name,
+                            style: const TextStyle(color: AppColors.white),
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (value) {
+                        setState(() {
+                          selectedRepoBranch = value;
+                        });
+                      },
+                    ),
+
+                    const SizedBox(height: 30.0,),
 
                     AppButton(
-                      onPressed: selectedRepo == null ? null : () {},
+                      onPressed: selectedRepo == null || selectedRepoBranch == null ? null : () {
+                        print(selectedRepo);
+                        print(selectedRepoBranch);
+                      },
                       buttonText: 'Deploy',
                       showIcon: true,
                       icon: Icons.rocket_launch,

@@ -5,12 +5,12 @@ import 'package:deploystack/features/git_deployment/domain/repository/git_deploy
 import 'package:fpdart/src/either.dart';
 
 class FetchUserGithubRepositories implements UseCase<List<GitHubRepo>, NoParams>{
-  GitDeploymentRepository _gitDeploymentRepository;
+  final GitDeploymentRepository _gitDeploymentRepository;
 
   FetchUserGithubRepositories({required GitDeploymentRepository gitDeploymentRepository}) : _gitDeploymentRepository = gitDeploymentRepository;
 
   @override
-  Future<Either<Failure, List<GitHubRepo>>> call(NoParams params) {
-    return _gitDeploymentRepository.fetchUserGitHubRepositories();
+  Future<Either<Failure, List<GitHubRepo>>> call(NoParams params) async {
+    return await _gitDeploymentRepository.fetchUserGitHubRepositories();
   }
 }

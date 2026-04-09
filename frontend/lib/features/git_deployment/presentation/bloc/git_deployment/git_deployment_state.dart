@@ -15,6 +15,18 @@ final class GitDeploymentErrorState extends GitDeploymentState {
 
 final class GitDeploymentSuccessState extends GitDeploymentState {
   final List<GitHubRepo> gitHubRepoList;
+  final String? defaultBranchName;
+  final List<GitHubRepoBranch>? gitHubRepoBranchList;
+  final bool isFetchingBranches;
 
-  GitDeploymentSuccessState({required this.gitHubRepoList,});
+  GitDeploymentSuccessState({required this.gitHubRepoList, this.defaultBranchName, this.gitHubRepoBranchList, this.isFetchingBranches = false,});
+
+  GitDeploymentSuccessState copyWith({List<GitHubRepo>? gitHubRepoList, String? defaultBranchName, List<GitHubRepoBranch>? gitHubRepoBranchList, bool? isFetchingBranches}) {
+    return GitDeploymentSuccessState(
+      gitHubRepoList: gitHubRepoList ?? this.gitHubRepoList,
+      defaultBranchName: defaultBranchName ?? this.defaultBranchName,
+      gitHubRepoBranchList: gitHubRepoBranchList ?? this.gitHubRepoBranchList,
+      isFetchingBranches: isFetchingBranches ?? this.isFetchingBranches,
+    );
+  }
 }
