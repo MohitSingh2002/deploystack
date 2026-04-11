@@ -1,5 +1,6 @@
 import 'package:deploystack/core/common/widgets/app_button.dart';
 import 'package:deploystack/core/theme/app_colors.dart';
+import 'package:deploystack/features/deployment_logs/presentation/deployment_logs.dart';
 import 'package:deploystack/features/git_deployment/presentation/git_deployment.dart';
 import 'package:deploystack/features/home/presentation/components/home_page_docker_component.dart';
 import 'package:deploystack/features/git_auth/presentation/git_auth.dart';
@@ -83,55 +84,55 @@ class _HomePageState extends State<HomePage> {
               ),
 
               Expanded(
-                child: SingleChildScrollView(
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: MediaQuery.of(context).size.height,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(30),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Initialize New Deployment",
-                            style: TextStyle(
-                              color: AppColors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.bold,
-                            ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: MediaQuery.of(context).size.height,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(30),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          "Initialize New Deployment",
+                          style: TextStyle(
+                            color: AppColors.white,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
                           ),
-                    
-                          const SizedBox(height: 10),
-                    
-                          const Text(
-                            "Select an origin source to provision a new instance.",
-                            style: TextStyle(color: AppColors.white54),
-                          ),
-                    
-                          const SizedBox(height: 30),
-                    
-                          HomeScreenChips(
-                            items: _deploymentItems,
-                            selectedIndex: _selectedIndex,
-                            onSelected: (index) {
-                              setState(() {
-                                _selectedIndex = index;
-                              });
-                            }
-                          ),
-                    
-                          const SizedBox(height: 20,),
-                    
-                          _selectedIndex == 0 ? GitAuth() : SizedBox(),
-                          _selectedIndex == 0 ? GitDeployment() : SizedBox(),
+                        ),
 
-                          _selectedIndex == 1 ? HomePageDockerComponent() : SizedBox(),
-                    
-                          _selectedIndex == 2 ? HomePagePublicGitComponent() : SizedBox(),
-                        ],
-                      ),
+                        const SizedBox(height: 10),
+
+                        const Text(
+                          "Select an origin source to provision a new instance.",
+                          style: TextStyle(color: AppColors.white54),
+                        ),
+
+                        const SizedBox(height: 30),
+
+                        HomeScreenChips(
+                          items: _deploymentItems,
+                          selectedIndex: _selectedIndex,
+                          onSelected: (index) {
+                            setState(() {
+                              _selectedIndex = index;
+                            });
+                          }
+                        ),
+
+                        const SizedBox(height: 20,),
+
+                        _selectedIndex == 0 ? GitAuth() : SizedBox(),
+                        _selectedIndex == 0 ? GitDeployment() : SizedBox(),
+
+                        _selectedIndex == 1 ? HomePageDockerComponent() : SizedBox(),
+
+                        _selectedIndex == 2 ? HomePagePublicGitComponent() : SizedBox(),
+
+                        Expanded(child: DeploymentLogs()),
+                      ],
                     ),
                   ),
                 ),

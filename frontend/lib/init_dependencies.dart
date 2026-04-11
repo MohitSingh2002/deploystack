@@ -10,6 +10,13 @@ import 'package:deploystack/features/auth/domain/repository/auth_repository.dart
 import 'package:deploystack/features/auth/domain/usecases/current_user.dart';
 import 'package:deploystack/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:deploystack/features/deployment_logs/data/data_sources/deployment_socket_remote_data_source.dart';
+import 'package:deploystack/features/deployment_logs/data/repositories/deployment_logs_repository_impl.dart';
+import 'package:deploystack/features/deployment_logs/domain/repository/deployment_logs_repository.dart';
+import 'package:deploystack/features/deployment_logs/domain/usecases/deployment_listener.dart';
+import 'package:deploystack/features/deployment_logs/domain/usecases/disconnect_deployment.dart';
+import 'package:deploystack/features/deployment_logs/domain/usecases/join_deployment.dart';
+import 'package:deploystack/features/deployment_logs/presentation/bloc/deployment_logs/deployment_logs_bloc.dart';
 import 'package:deploystack/features/git_auth/data/data_sources/git_auth_remote_data_source.dart';
 import 'package:deploystack/features/git_auth/data/repositories/git_auth_repository_impl.dart';
 import 'package:deploystack/features/git_auth/domain/repository/git_auth_repository.dart';
@@ -34,6 +41,7 @@ Future<void> initDependencies() async {
   _initGithubAuth();
   _initGitAuth();
   _initGitDeployment();
+  _initDeploymentLogs();
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
@@ -142,6 +150,36 @@ void _initGitDeployment() {
         fetchUserGithubRepositories: serviceLocator(),
         fetchGithubRepositoryBranches: serviceLocator(),
         deployGitRepository: serviceLocator(),
+      )
+  );
+}
+
+void _initDeploymentLogs() {
+  serviceLocator.registerFactory<DeploymentSocketRemoteDataSource>(
+      () => DeploymentSocketRemoteDataSourceImpl()
+  );
+
+  serviceLocator.registerFactory<DeploymentLogsRepository>(
+      () => DeploymentLogsRepositoryImpl(deploymentSocketRemoteDataSource: serviceLocator())
+  );
+
+  serviceLocator.registerFactory(
+      () => JoinDeployment(deploymentLogsRepository: serviceLocator())
+  );
+
+  serviceLocator.registerFactory(
+      () => DisconnectDeployment(deploymentLogsRepository: serviceLocator())
+  );
+
+  serviceLocator.registerFactory(
+      () => DeploymentListener(deploymentLogsRepository: serviceLocator())
+  );
+
+  serviceLocator.registerLazySingleton<DeploymentLogsBloc>(
+      () => DeploymentLogsBloc(
+        joinDeployment: serviceLocator(),
+        disconnectDeployment: serviceLocator(),
+        deploymentListener: serviceLocator(),
       )
   );
 }
