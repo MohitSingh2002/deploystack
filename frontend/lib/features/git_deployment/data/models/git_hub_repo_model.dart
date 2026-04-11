@@ -18,4 +18,13 @@ class GitHubRepoModel extends GitHubRepo {
       defaultBranch: map['default_branch'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fullName': fullName,
+      'cloneUrl': cloneUrl,
+      'ownerName': ownerName,
+      'repoName': repoName,
+    };
+  }
 }

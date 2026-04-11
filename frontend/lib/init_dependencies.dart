@@ -15,9 +15,11 @@ import 'package:deploystack/features/git_auth/data/repositories/git_auth_reposit
 import 'package:deploystack/features/git_auth/domain/repository/git_auth_repository.dart';
 import 'package:deploystack/features/git_auth/domain/usecases/connect_github.dart';
 import 'package:deploystack/features/git_auth/presentation/bloc/git_auth/git_auth_bloc.dart';
+import 'package:deploystack/features/git_deployment/data/data_sources/deploy_git_hub_repo_remote_data_source.dart';
 import 'package:deploystack/features/git_deployment/data/data_sources/git_hub_repo_remote_data_source.dart';
 import 'package:deploystack/features/git_deployment/data/repositories/git_deployment_repository_impl.dart';
 import 'package:deploystack/features/git_deployment/domain/repository/git_deployment_repository.dart';
+import 'package:deploystack/features/git_deployment/domain/usecases/deploy_git_repository.dart';
 import 'package:deploystack/features/git_deployment/domain/usecases/fetch_user_github_repositories.dart';
 import 'package:deploystack/features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -111,10 +113,15 @@ void _initGitDeployment() {
       () => GitHubRepoBranchRemoteDataSourceImpl()
   );
 
+  serviceLocator.registerFactory<DeployGitHubRepoRemoteDataSource>(
+      () => DeployGitHubRepoRemoteDataSourceImpl()
+  );
+
   serviceLocator.registerFactory<GitDeploymentRepository>(
       () => GitDeploymentRepositoryImpl(
           gitHubRepoRemoteDataSource: serviceLocator(),
           gitHubRepoBranchRemoteDataSource: serviceLocator(),
+          deployGitHubRepoRemoteDataSource: serviceLocator(),
       )
   );
 
@@ -125,11 +132,16 @@ void _initGitDeployment() {
   serviceLocator.registerFactory(
       () => FetchGithubRepositoryBranches(gitDeploymentRepository: serviceLocator())
   );
+  
+  serviceLocator.registerFactory(
+      () => DeployGitRepository(gitDeploymentRepository: serviceLocator())
+  );
 
   serviceLocator.registerLazySingleton<GitDeploymentBloc>(
       () => GitDeploymentBloc(
         fetchUserGithubRepositories: serviceLocator(),
         fetchGithubRepositoryBranches: serviceLocator(),
+        deployGitRepository: serviceLocator(),
       )
   );
 }

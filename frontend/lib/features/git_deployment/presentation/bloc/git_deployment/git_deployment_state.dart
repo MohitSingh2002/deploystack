@@ -18,15 +18,17 @@ final class GitDeploymentSuccessState extends GitDeploymentState {
   final String? defaultBranchName;
   final List<GitHubRepoBranch>? gitHubRepoBranchList;
   final bool isFetchingBranches;
+  final bool isDeploymentSuccessful;
 
-  GitDeploymentSuccessState({required this.gitHubRepoList, this.defaultBranchName, this.gitHubRepoBranchList, this.isFetchingBranches = false,});
+  GitDeploymentSuccessState({required this.gitHubRepoList, this.defaultBranchName, this.gitHubRepoBranchList, this.isFetchingBranches = false, this.isDeploymentSuccessful = false,});
 
-  GitDeploymentSuccessState copyWith({List<GitHubRepo>? gitHubRepoList, String? defaultBranchName, List<GitHubRepoBranch>? gitHubRepoBranchList, bool? isFetchingBranches}) {
+  GitDeploymentSuccessState copyWith({List<GitHubRepo>? gitHubRepoList, String? defaultBranchName, List<GitHubRepoBranch>? gitHubRepoBranchList, bool? isFetchingBranches, bool? isDeploymentSuccessful}) {
     return GitDeploymentSuccessState(
       gitHubRepoList: gitHubRepoList ?? this.gitHubRepoList,
       defaultBranchName: defaultBranchName ?? this.defaultBranchName,
       gitHubRepoBranchList: gitHubRepoBranchList ?? this.gitHubRepoBranchList,
       isFetchingBranches: isFetchingBranches ?? this.isFetchingBranches,
+      isDeploymentSuccessful: isDeploymentSuccessful ?? this.isDeploymentSuccessful,
     );
   }
 }

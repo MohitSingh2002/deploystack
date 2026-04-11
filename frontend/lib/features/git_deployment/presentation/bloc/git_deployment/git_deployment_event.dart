@@ -10,3 +10,13 @@ final class GitDeploymentFetchRepositoryBranchesEvent extends GitDeploymentEvent
 
   GitDeploymentFetchRepositoryBranchesEvent({required this.gitHubRepo,});
 }
+
+final class GitRepoDeploymentEvent extends GitDeploymentEvent {
+  final GitHubRepo gitHubRepo;
+  final GitHubRepoBranch gitHubRepoBranch;
+
+  GitRepoDeploymentEvent({
+    required this.gitHubRepo,
+    required this.gitHubRepoBranch,
+  });
+}

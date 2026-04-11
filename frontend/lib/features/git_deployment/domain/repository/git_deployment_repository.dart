@@ -7,4 +7,6 @@ abstract interface class GitDeploymentRepository {
   Future<Either<Failure, List<GitHubRepo>>> fetchUserGitHubRepositories();
 
   Future<Either<Failure, List<GitHubRepoBranch>>> fetchGitHubRepositoryBranches(String owner, String repo);
+
+  Future<Either<Failure, bool>> deployGitHubRepo(GitHubRepo gitHubRepo, GitHubRepoBranch gitHubRepoBranch);
 }

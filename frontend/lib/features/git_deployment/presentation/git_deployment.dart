@@ -48,6 +48,10 @@ class _GitDeploymentState extends State<GitDeployment> {
             if (state is GitDeploymentErrorState) {
               showSnackBar(context: context, content: state.message,);
             }
+
+            if (state is GitDeploymentSuccessState && state.isDeploymentSuccessful) {
+              showSnackBar(context: context, content: 'Deployment Created.');
+            }
           },
           builder: (context, state) {
             if (state is GitDeploymentLoadingState) {
@@ -91,6 +95,7 @@ class _GitDeploymentState extends State<GitDeployment> {
                       onChanged: (value) {
                         setState(() {
                           selectedRepo = value;
+                          selectedRepoBranch = null;
                           // selectedRepoBranch = GitHubRepoBranch(name: value!.defaultBranch,);
                         });
                         context.read<GitDeploymentBloc>().add(
@@ -129,8 +134,7 @@ class _GitDeploymentState extends State<GitDeployment> {
 
                     AppButton(
                       onPressed: selectedRepo == null || selectedRepoBranch == null ? null : () {
-                        print(selectedRepo);
-                        print(selectedRepoBranch);
+                        context.read<GitDeploymentBloc>().add(GitRepoDeploymentEvent(gitHubRepo: selectedRepo!, gitHubRepoBranch: selectedRepoBranch!));
                       },
                       buttonText: 'Deploy',
                       showIcon: true,

@@ -18,11 +18,32 @@ function generateJWT(appId, privateKey) {
   return jwt.sign(payload, privateKey, { algorithm: 'RS256' });
 }
 
+async function checkIfInstallationTokenValid(token) {
+    try {
+        const res = await axios.get(
+            `https://api.github.com/installation/repositories`,
+            {
+                headers: {
+                    Authorization: `token ${token}`,
+                    Accept: 'application/vnd.github+json',
+                },
+            }
+        );
+
+        return res.status === 200;
+    } catch (err) {
+        return false;
+    }
+}
+
 async function generateGitHubToken() {
     const user = await User.findOne().populate('git');
-    // if (user && user.git && user.git.installationToken) {
-    //     return user.git.installationToken;
-    // }
+    if (user && user.git && user.git.installationToken) {
+        const isTokenValid = await checkIfInstallationTokenValid(user.git.installationToken);
+        if (isTokenValid) {
+            return user.git.installationToken;
+        }
+    }
 
     const token = generateJWT(user.git.id, user.git.pem);
 
@@ -52,11 +73,11 @@ async function generateGitHubToken() {
 
     const installationToken = authResponse.data.token;
 
-    // await Git.findOneAndUpdate(
-    //     {},
-    //     { installationToken: installationToken },
-    //     { new: true, upsert: true }
-    // );
+    await Git.findOneAndUpdate(
+        {},
+        { installationToken: installationToken },
+        { new: true, upsert: true }
+    );
 
     return installationToken;
 }

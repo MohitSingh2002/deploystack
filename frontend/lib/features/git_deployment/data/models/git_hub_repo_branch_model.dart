@@ -8,4 +8,10 @@ class GitHubRepoBranchModel extends GitHubRepoBranch {
       name: map['name'] ?? '',
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+    };
+  }
 }
