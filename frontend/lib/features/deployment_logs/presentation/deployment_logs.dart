@@ -41,11 +41,22 @@ class _DeploymentLogsState extends State<DeploymentLogs> {
         }
 
         if (state is DeploymentLogsDataState) {
-          // WidgetsBinding.instance.addPostFrameCallback((_) {
-          //   _scrollController.jumpTo(
-          //     _scrollController.position.maxScrollExtent,
-          //   );
-          // });
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (!_scrollController.hasClients) return;
+
+              final maxScroll = _scrollController.position.maxScrollExtent;
+              final currentScroll = _scrollController.offset;
+
+              const threshold = 100.0;
+
+              final isNearBottom = (maxScroll - currentScroll) <= threshold;
+
+              if (isNearBottom) {
+                _scrollController.jumpTo(maxScroll);
+              }
+            });
+          });
 
           return ListView.builder(
             controller: _scrollController,
