@@ -58,7 +58,7 @@ class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> 
 
             return DeploymentLogsDataState(
               isDataAvailable: true,
-              data: [...currentLogs, jsonEncode(data)],
+              data: [...currentLogs, data.toString()],
             );
           },
         );

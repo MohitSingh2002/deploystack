@@ -2,6 +2,10 @@ const Kafka = require('kafkajs').Kafka;
 
 const { KAFKA_CONSUMER_CLIENT_ID, KAFKA_CONSUMER_GROUP, KAFKA_CONSUMER, KAFKA_BROKER_URL, KAFKA_TOPIC_DEPLOYMENT } = require('./kafka_contansts');
 
+const gitRepoDeployment = require('../helpers/deployment/git_repo_deployment');
+
+// io.to('deployment').emit('deployment-event', event);
+
 async function consumeKafka(io) {
     const kafka = new Kafka({
         clientId: KAFKA_CONSUMER_CLIENT_ID,
@@ -10,37 +14,52 @@ async function consumeKafka(io) {
 
     const consumer = kafka.consumer({ groupId: KAFKA_CONSUMER_GROUP });
     await consumer.connect();
-    await consumer.subscribe({ topic: KAFKA_TOPIC_DEPLOYMENT, fromBeginning: true });
+    await consumer.subscribe({ topic: KAFKA_TOPIC_DEPLOYMENT, fromBeginning: false });
 
     await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
+        autoCommit: true,
+        eachMessage: async ({ message }) => {
             const event = JSON.parse(message.value.toString());
-            console.log(`👉 Received event: ${event.type} with data: ${JSON.stringify(event.data)}`);
-            // Here you can add logic to handle the event, e.g., trigger deployment
-            
-            // io.to('deployment').emit('deployment-event', event);
 
-            let count = 1;
+            console.log(`👉 Processing: ${event.type}, ${JSON.stringify(event.data)}`);
 
-            const interval = setInterval(() => {
-            io.to('deployment').emit('deployment-event', {
-                type: event.type,
-                data: {
-                ...event.data,
-                log: `Log ${count}`,
-                },
-            });
-
-            console.log(`Emitted: ${count}`);
-
-            count++;
-
-            if (count > 1000) {
-                clearInterval(interval);
+            if (event.type === 'git-repo-deployment') {
+                await gitRepoDeployment(event.data, io);
             }
-            }, 2000); // 2 seconds gap
+
+            console.log('Process Completed');
         },
     });
+
+    // await consumer.run({
+    //     autoCommit: false,
+    //     eachBatch: async ({batch, resolveOffset, heartbeat, commitOffsetsIfNecessary, }) => {
+    //         for (const message of batch.messages) {
+    //             const event = JSON.parse(message.value.toString());
+
+    //             console.log(`👉 Processing: ${event.type}, ${JSON.stringify(event.data)}`);
+
+    //             if (event.type === 'git-repo-deployment' && event.data.repoName !== 'JustJava') {
+    //                 await gitRepoDeployment(event.data, io);
+    //             }
+
+    //             console.log('Process Completed');
+
+    //             resolveOffset(message.offset);
+
+    //             await heartbeat();
+    //         }
+
+    //         // // commit after batch processed
+    //         await consumer.commitOffsets([
+    //             {
+    //                 topic: batch.topic,
+    //                 partition: batch.partition,
+    //                 offset: (Number(batch.lastOffset()) + 1).toString(),
+    //             },
+    //         ]);
+    //     },
+    // });
 }
 
 module.exports = consumeKafka;

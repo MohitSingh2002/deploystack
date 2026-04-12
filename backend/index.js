@@ -57,7 +57,6 @@ mongoose.connect("mongodb://localhost:27017/deploystack")
 
 io.on('connection', (socket) => {
   socket.on('deployment', (data) => {
-    console.log('someone');
     socket.join('deployment');
   });
 });
