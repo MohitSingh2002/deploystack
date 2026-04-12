@@ -124,14 +124,16 @@ class _HomePageState extends State<HomePage> {
 
                         const SizedBox(height: 20,),
 
-                        _selectedIndex == 0 ? GitAuth() : SizedBox(),
-                        _selectedIndex == 0 ? GitDeployment() : SizedBox(),
+                        _selectedIndex == 0 ? const GitAuth() : SizedBox(),
+                        _selectedIndex == 0 ? const GitDeployment() : SizedBox(),
 
-                        _selectedIndex == 1 ? HomePageDockerComponent() : SizedBox(),
+                        _selectedIndex == 1 ? const HomePageDockerComponent() : SizedBox(),
 
-                        _selectedIndex == 2 ? HomePagePublicGitComponent() : SizedBox(),
+                        _selectedIndex == 2 ? const HomePagePublicGitComponent() : SizedBox(),
 
-                        Expanded(child: DeploymentLogs()),
+                        const SizedBox(height: 20,),
+
+                        const Expanded(child: DeploymentLogs()),
                       ],
                     ),
                   ),

@@ -1,6 +1,12 @@
 const Kafka = require('kafkajs').Kafka;
 
-const { KAFKA_CONSUMER_CLIENT_ID, KAFKA_CONSUMER_GROUP, KAFKA_CONSUMER, KAFKA_BROKER_URL, KAFKA_TOPIC_DEPLOYMENT } = require('./kafka_contansts');
+const { KAFKA_CONSUMER_CLIENT_ID,
+    KAFKA_CONSUMER_GROUP,
+    KAFKA_CONSUMER,
+    KAFKA_BROKER_URL,
+    KAFKA_TOPIC_DEPLOYMENT,
+    KAFKA_DEPLOYMENT_COMPLETED,
+    KAFKA_DEPLOYMENT_EVENT } = require('./kafka_contansts');
 
 const gitRepoDeployment = require('../helpers/deployment/git_repo_deployment');
 
@@ -28,6 +34,7 @@ async function consumeKafka(io) {
             }
 
             console.log('Process Completed');
+            io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, KAFKA_DEPLOYMENT_COMPLETED);
         },
     });
 

@@ -2,6 +2,8 @@ const { execSync, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+const { KAFKA_TOPIC_DEPLOYMENT, KAFKA_DEPLOYMENT_EVENT } = require('../../kafka/kafka_contansts');
+
 const generateGitHubToken = require('../generate_github_token');
 
 function cleanLog(log) {
@@ -75,8 +77,7 @@ async function gitRepoDeployment(data, io) {
         'git',
         ['clone', '--progress', '-b', data.name, cloneUrl, projectPath],
         (log) => {
-            // console.log(log);
-            io.to('deployment').emit('deployment-event', log);
+            io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, log);
         }
     );
 }

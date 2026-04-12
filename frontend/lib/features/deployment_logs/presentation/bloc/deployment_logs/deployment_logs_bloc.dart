@@ -31,6 +31,7 @@ class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> 
     on<DeploymentLogsJoinDeploymentEvent>(_onDeploymentLogsJoinDeploymentEvent);
     on<DeploymentLogsDisconnectDeploymentEvent>(_onDeploymentLogsDisconnectDeploymentEvent);
     on<DeploymentLogsConnectSocketEvent>(_onDeploymentLogsConnectSocketEvent);
+    on<DeploymentCompletedEvent>(_onDeploymentCompletedEvent);
   }
 
   void _onDeploymentLogsJoinDeploymentEvent(DeploymentLogsJoinDeploymentEvent event, Emitter emit) async {
@@ -51,18 +52,25 @@ class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> 
         await emit.forEach(
           stream,
           onData: (data) {
-            final currentLogs =
-            state is DeploymentLogsDataState
-                ? (state as DeploymentLogsDataState).data
-                : [];
+            if (data == 'deployment-completed') {
+              add(DeploymentCompletedEvent());
+              return state;
+            } else {
+              final currentLogs = state is DeploymentLogsDataState ? (state as DeploymentLogsDataState).data : [];
 
-            return DeploymentLogsDataState(
-              isDataAvailable: true,
-              data: [...currentLogs, data.toString()],
-            );
+              return DeploymentLogsDataState(
+                isDataAvailable: true,
+                data: [...currentLogs, data.toString()],
+              );
+            }
           },
         );
       },
     );
+  }
+
+  void _onDeploymentCompletedEvent(DeploymentCompletedEvent event, Emitter emit) async {
+    await Future.delayed(const Duration(seconds: 3,),);
+    emit(DeploymentCompletedState());
   }
 }

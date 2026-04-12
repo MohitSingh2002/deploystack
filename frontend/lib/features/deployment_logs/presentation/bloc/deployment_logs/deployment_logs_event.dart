@@ -8,3 +8,5 @@ final class DeploymentLogsJoinDeploymentEvent extends DeploymentLogsEvent {}
 final class DeploymentLogsDisconnectDeploymentEvent extends DeploymentLogsEvent {}
 
 final class DeploymentLogsConnectSocketEvent extends DeploymentLogsEvent {}
+
+final class DeploymentCompletedEvent extends DeploymentLogsEvent {}

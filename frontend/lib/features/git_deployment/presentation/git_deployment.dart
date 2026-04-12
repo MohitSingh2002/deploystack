@@ -50,7 +50,7 @@ class _GitDeploymentState extends State<GitDeployment> {
             }
 
             if (state is GitDeploymentSuccessState && state.isDeploymentSuccessful) {
-              showSnackBar(context: context, content: 'Deployment Created.');
+              showSnackBar(context: context, content: 'Deployment created. It will begin after any ongoing deployment completes.', longDuration: true);
             }
           },
           builder: (context, state) {
