@@ -11,7 +11,7 @@ const { KAFKA_CONSUMER_CLIENT_ID,
 
 const gitRepoDeployment = require('../helpers/deployment/git_repo_deployment');
 
-const { clearLogs, logDeployment } = require('../helpers/log_deployment');
+const { clearLogs, logDeployment, saveLogs } = require('../helpers/log_deployment');
 
 async function runWithHeartbeat(task, heartbeat) {
   const interval = setInterval(() => {
@@ -65,13 +65,15 @@ async function consumeKafka(io) {
                     await heartbeat();
 
                     logDeployment('\nProcess Completed');
-                    console.log('Process Completed');
                 } catch (err) {
                     logDeployment('\n' + JSON.stringify(err.message));
                     console.error("Deployment failed:", err.message);
                     resolveOffset(message.offset);
                     await heartbeat();
                 }
+
+                console.log('Process Completed');
+                await saveLogs(event.projectId);
             }
 
             // await commitOffsetsIfNecessary();
