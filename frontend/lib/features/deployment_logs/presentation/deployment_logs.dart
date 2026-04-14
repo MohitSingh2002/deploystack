@@ -1,6 +1,6 @@
 import 'package:deploystack/core/theme/app_colors.dart';
 import 'package:deploystack/features/deployment_logs/presentation/bloc/deployment_logs/deployment_logs_bloc.dart';
-import 'package:deploystack/features/deployment_logs/presentation/bloc/widgets/deployment_logs_card.dart';
+import 'package:deploystack/features/deployment_logs/presentation/widgets/deployment_logs_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -54,6 +54,10 @@ class _DeploymentLogsState extends State<DeploymentLogs> {
 
         if (state is DeploymentCompletedState) {
           return DeploymentLogsCard(text: 'Deployment Completed, please check projects section for further details.',);
+        }
+
+        if (state is DeploymentFailedState) {
+          return DeploymentLogsCard(text: 'Deployment Failed, please check projects section for further details.',);
         }
 
         if (state is DeploymentLogsDataState) {

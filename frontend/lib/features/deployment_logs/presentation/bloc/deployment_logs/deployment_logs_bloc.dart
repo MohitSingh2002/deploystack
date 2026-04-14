@@ -32,6 +32,7 @@ class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> 
     on<DeploymentLogsDisconnectDeploymentEvent>(_onDeploymentLogsDisconnectDeploymentEvent);
     on<DeploymentLogsConnectSocketEvent>(_onDeploymentLogsConnectSocketEvent);
     on<DeploymentCompletedEvent>(_onDeploymentCompletedEvent);
+    on<DeploymentFailedEvent>(_onDeploymentFailedEvent);
   }
 
   void _onDeploymentLogsJoinDeploymentEvent(DeploymentLogsJoinDeploymentEvent event, Emitter emit) async {
@@ -55,6 +56,8 @@ class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> 
             if (data == 'deployment-completed') {
               add(DeploymentCompletedEvent());
               return state;
+            } else if (data == 'deployment-failed') {
+              add(DeploymentFailedEvent());
             } else {
               final currentLogs = state is DeploymentLogsDataState ? (state as DeploymentLogsDataState).data : [];
 
@@ -72,5 +75,10 @@ class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> 
   void _onDeploymentCompletedEvent(DeploymentCompletedEvent event, Emitter emit) async {
     await Future.delayed(const Duration(seconds: 3,),);
     emit(DeploymentCompletedState());
+  }
+
+  void _onDeploymentFailedEvent(DeploymentFailedEvent event, Emitter emit) async {
+    await Future.delayed(const Duration(seconds: 3,),);
+    emit(DeploymentFailedState());
   }
 }

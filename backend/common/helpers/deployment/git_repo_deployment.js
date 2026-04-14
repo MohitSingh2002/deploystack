@@ -1,10 +1,13 @@
-const { execSync, spawn } = require('child_process');
+const { exec, execSync, spawn } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
 const { KAFKA_TOPIC_DEPLOYMENT, KAFKA_DEPLOYMENT_EVENT } = require('../../kafka/kafka_contansts');
 
 const generateGitHubToken = require('../generate_github_token');
+const nodeDeployment = require('./framework_deployment/node_deployment');
+
+const { clearLogs, logDeployment } = require('../../helpers/log_deployment');
 
 function cleanLog(log) {
   return log
@@ -49,37 +52,86 @@ function cloneRepo(command, args, onLog) {
   });
 }
 
+async function findFramework(projectPath) {
+    return new Promise((resolve, reject) => {
+        const nixpacksPlan = spawn("nixpacks", ["plan", projectPath]);
+
+        let output = "";
+        let errorOutput = "";
+
+        nixpacksPlan.stdout.on("data", (data) => {
+            output += data.toString();
+        });
+
+        nixpacksPlan.stderr.on("data", (data) => {
+            errorOutput += data.toString();
+        });
+
+        nixpacksPlan.on("close", (code) => {
+            if (code !== 0) {
+                return reject(new Error(errorOutput));
+            }
+
+            try {
+                const plan = JSON.parse(output);
+
+                const framework =
+                    plan.variables?.NIXPACKS_METADATA ||
+                    plan.providers?.[0] ||
+                    "unknown";
+
+                resolve(framework);
+            } catch (err) {
+                reject(new Error("Invalid JSON from nixpacks"));
+            }
+        });
+    });
+}
+
 async function gitRepoDeployment(data, io) {
-    const BASE_DIR = path.join(__dirname, '../../../clone-repos');
-    const projectPath = path.join(BASE_DIR, data.repoName);
+    try {
+        const BASE_DIR = path.join(__dirname, '../../../clone-repos');
+        const projectPath = path.join(BASE_DIR, data.repoName);
 
-    let installationToken = await generateGitHubToken();
+        let installationToken = await generateGitHubToken();
 
-    if (!fs.existsSync(BASE_DIR)) {
-        fs.mkdirSync(BASE_DIR, { recursive: true });
-    }
-
-    if (fs.existsSync(projectPath)) {
-        fs.rmSync(projectPath, { recursive: true, force: true });
-    }
-
-    let cloneUrl = data.cloneUrl.replace(
-        'https://',
-        `https://x-access-token:${installationToken}@`
-    );
-
-    // execSync(
-    //     `git clone -b ${data.name} ${cloneUrl} ${projectPath}`,
-    //     { stdio: 'inherit' }
-    // );
-
-    await cloneRepo(
-        'git',
-        ['clone', '--progress', '-b', data.name, cloneUrl, projectPath],
-        (log) => {
-            io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, log);
+        if (!fs.existsSync(BASE_DIR)) {
+            fs.mkdirSync(BASE_DIR, { recursive: true });
         }
-    );
+
+        if (fs.existsSync(projectPath)) {
+            fs.rmSync(projectPath, { recursive: true, force: true });
+        }
+
+        let cloneUrl = data.cloneUrl.replace(
+            'https://',
+            `https://x-access-token:${installationToken}@`
+        );
+
+        await cloneRepo(
+            'git',
+            ['clone', '--progress', '-b', data.name, cloneUrl, projectPath],
+            (log) => {
+                logDeployment(log);
+                io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, log);
+            }
+        );
+
+        const framework = await findFramework(projectPath);
+        console.log(`Detected Framework: ${framework}`);
+
+        if (framework === 'unknown') {
+            logDeployment('\nCould not detect framework');
+            io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, 'Could not detect framework');
+            throw new Error('Could not detect framework');
+        } else if (framework === 'node') {
+            await nodeDeployment(projectPath, data.repoName, io);
+        }
+    } catch (err) {
+        logDeployment('\n' + JSON.stringify(err.message));
+        console.error(`gitRepoDeployment Deployment Failed : ${JSON.stringify(err.message)}`);
+        throw err;
+    }
 }
 
 module.exports = gitRepoDeployment;

@@ -10,3 +10,5 @@ final class DeploymentLogsDisconnectDeploymentEvent extends DeploymentLogsEvent 
 final class DeploymentLogsConnectSocketEvent extends DeploymentLogsEvent {}
 
 final class DeploymentCompletedEvent extends DeploymentLogsEvent {}
+
+final class DeploymentFailedEvent extends DeploymentLogsEvent {}

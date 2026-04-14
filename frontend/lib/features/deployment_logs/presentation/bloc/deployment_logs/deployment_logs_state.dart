@@ -22,3 +22,5 @@ final class DeploymentLogsDataState extends DeploymentLogsState{
 }
 
 final class DeploymentCompletedState extends DeploymentLogsState {}
+
+final class DeploymentFailedState extends DeploymentLogsState {}

@@ -1,5 +1,6 @@
 {
   "ignore": [
-    "clone-repos/"
+    "clone-repos/",
+    "deployment.log"
   ]
 }
