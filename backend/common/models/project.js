@@ -19,6 +19,8 @@ const projectSchema = mongoose.Schema({
         ref: 'GitHubProject',
         required: false
     }
+}, {
+    timestamps: true
 });
 
 const Project = mongoose.model('Project', projectSchema);

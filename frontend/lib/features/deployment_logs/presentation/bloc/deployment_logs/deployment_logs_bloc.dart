@@ -58,6 +58,7 @@ class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> 
               return state;
             } else if (data == 'deployment-failed') {
               add(DeploymentFailedEvent());
+              return state;
             } else {
               final currentLogs = state is DeploymentLogsDataState ? (state as DeploymentLogsDataState).data : [];
 
