@@ -8,8 +8,22 @@ const { KAFKA_TOPIC_DEPLOYMENT, KAFKA_DEPLOYMENT_EVENT } = require('../../../kaf
 
 const { clearLogs, logDeployment } = require('../../../helpers/log_deployment');
 
-async function nodeDeployment(targetDir, imageName, io) {
+const Project = require('../../../models/project');
+
+async function nodeDeployment(targetDir, imageName, io, projectId, port) {
     try {
+        await new Promise((resolve) => {
+            const stopContainer = spawn('docker', ['rm', '-f', `${imageName}-container`]);
+
+            stopContainer.on('close', () => resolve());
+        });
+
+        await new Promise((resolve) => {
+            const removeImage = spawn('docker', ['rmi', '-f', imageName]);
+
+            removeImage.on('close', () => resolve());
+        });
+
         const nixpacks = spawn('nixpacks', [
             'build', targetDir,
             '--name', imageName,
@@ -31,11 +45,12 @@ async function nodeDeployment(targetDir, imageName, io) {
 
         const getPort = (await import('get-port')).default;
         const freePort = await getPort();
+        const availablePort = port !== '' ? port : freePort;
 
         const dockerRun = spawn('docker', [
             'run', '-d',
             '--name', `${imageName}-container`,
-            '-p', `${freePort}:3000`,
+            '-p', `${availablePort}:3000`,
             imageName
         ]);
 
@@ -52,8 +67,9 @@ async function nodeDeployment(targetDir, imageName, io) {
             dockerRun.on('close', (code) => code === 0 ? resolve() : reject(new Error(`Docker run failed with code ${code}`)));
         });
 
-        logDeployment(`Container "${imageName}-container" is live at ${freePort}, use http://<ipv4>:${freePort}`);
-        io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, `Container "${imageName}-container" is live at ${freePort}, use http://<ipv4>:${freePort}`);
+        await Project.findByIdAndUpdate(projectId, { port: availablePort });
+        logDeployment(`Container "${imageName}-container" is live at ${availablePort}, use http://<ipv4>:${availablePort}`);
+        io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, `Container "${imageName}-container" is live at ${availablePort}, use http://<ipv4>:${availablePort}`);
     } catch (err) {
         throw err;
     }

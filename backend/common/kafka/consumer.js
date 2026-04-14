@@ -55,7 +55,7 @@ async function consumeKafka(io) {
                         // await gitRepoDeployment(event.data, io);
                         clearLogs();
                         await runWithHeartbeat(
-                            () => gitRepoDeployment(event.data, io),
+                            () => gitRepoDeployment(event.data, io, event.projectId, event.port),
                             heartbeat
                         );
                     }

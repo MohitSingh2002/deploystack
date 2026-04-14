@@ -88,7 +88,7 @@ async function findFramework(projectPath) {
     });
 }
 
-async function gitRepoDeployment(data, io) {
+async function gitRepoDeployment(data, io, projectId, port) {
     try {
         const BASE_DIR = path.join(__dirname, '../../../clone-repos');
         const projectPath = path.join(BASE_DIR, data.repoName);
@@ -125,7 +125,11 @@ async function gitRepoDeployment(data, io) {
             io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, 'Could not detect framework');
             throw new Error('Could not detect framework');
         } else if (framework === 'node') {
-            await nodeDeployment(projectPath, data.repoName, io);
+            await nodeDeployment(projectPath, data.repoName, io, projectId, port);
+        }
+
+        if (fs.existsSync(projectPath)) {
+            fs.rmSync(projectPath, { recursive: true, force: true });
         }
     } catch (err) {
         logDeployment('\n' + JSON.stringify(err.message));
