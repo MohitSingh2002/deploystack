@@ -29,6 +29,11 @@ import 'package:deploystack/features/git_deployment/domain/repository/git_deploy
 import 'package:deploystack/features/git_deployment/domain/usecases/deploy_git_repository.dart';
 import 'package:deploystack/features/git_deployment/domain/usecases/fetch_user_github_repositories.dart';
 import 'package:deploystack/features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
+import 'package:deploystack/features/projects/data/data_sources/projects_remote_data_source.dart';
+import 'package:deploystack/features/projects/data/repositories/projects_repo_impl.dart';
+import 'package:deploystack/features/projects/domain/repository/projects_repo.dart';
+import 'package:deploystack/features/projects/domain/usecases/fetch_all_projects.dart';
+import 'package:deploystack/features/projects/presentation/bloc/projects_bloc/projects_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/git_deployment/data/data_sources/git_hub_repo_branch_remote_data_source.dart';
@@ -42,6 +47,7 @@ Future<void> initDependencies() async {
   _initGitAuth();
   _initGitDeployment();
   _initDeploymentLogs();
+  _initProjects();
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
@@ -180,6 +186,26 @@ void _initDeploymentLogs() {
         joinDeployment: serviceLocator(),
         disconnectDeployment: serviceLocator(),
         deploymentListener: serviceLocator(),
+      )
+  );
+}
+
+void _initProjects() {
+  serviceLocator.registerFactory<ProjectsRemoteDataSource>(
+      () => ProjectsRemoteDataSourceImpl()
+  );
+
+  serviceLocator.registerFactory<ProjectsRepo>(
+      () => ProjectsRepoImpl(projectsRemoteDataSource: serviceLocator(),)
+  );
+
+  serviceLocator.registerFactory(
+      () => FetchAllProjects(projectsRepo: serviceLocator(),)
+  );
+
+  serviceLocator.registerLazySingleton<ProjectsBloc>(
+      () => ProjectsBloc(
+        fetchAllProjects: serviceLocator(),
       )
   );
 }

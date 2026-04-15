@@ -1,3 +1,5 @@
+import 'package:deploystack/core/utils/app_routes.dart';
+import 'package:deploystack/features/dashboard/presentation/pages/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,7 +8,7 @@ import 'core/common/widgets/loading.dart';
 import 'features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'features/auth/presentation/pages/signup_page.dart';
 import 'features/home/presentation/pages/home_page.dart';
-import 'package:deploystack/features/projects/presentation/projects_page.dart';
+import 'package:deploystack/features/projects/presentation/pages/projects_page.dart';
 
 import 'init_dependencies.dart';
 
@@ -19,7 +21,7 @@ class GoRouterRefreshStream extends ChangeNotifier {
 }
 
 final router = GoRouter(
-  initialLocation: '/',
+  initialLocation: AppRoutes.dashboard,
   refreshListenable: GoRouterRefreshStream(
     serviceLocator<AuthBloc>().stream,
   ),
@@ -29,45 +31,52 @@ final router = GoRouter(
     final isLoading = authState is AuthLoading;
     final isLoggedIn = authState is AuthSuccess;
 
-    final isLoadingRoute = state.matchedLocation == '/loading';
-    final isSignupRoute = state.matchedLocation == '/signup';
+    final isLoadingRoute = state.matchedLocation == AppRoutes.loading;
+    final isSignupRoute = state.matchedLocation == AppRoutes.signup;
 
     if (isLoggedIn && isLoadingRoute) {
-      return '/';
+      return AppRoutes.dashboard;
     }
 
     if (isLoading) {
-      return isLoadingRoute ? null : '/loading';
+      return isLoadingRoute ? null : AppRoutes.loading;
     }
 
     if (!isLoggedIn) {
-      return isSignupRoute ? null : '/signup';
+      return isSignupRoute ? null : AppRoutes.signup;
     }
 
     if (isLoggedIn && isSignupRoute) {
-      return '/';
+      return AppRoutes.dashboard;
     }
 
     return null;
   },
   routes: [
     GoRoute(
-      path: '/loading',
+      path: AppRoutes.loading,
       builder: (context, state) => const Scaffold(
         body: Loading(),
       ),
     ),
     GoRoute(
-      path: '/',
-      builder: (context, state) => const HomePage(),
-    ),
-    GoRoute(
-      path: '/signup',
+      path: AppRoutes.signup,
       builder: (context, state) => const SignUpPage(),
     ),
-    GoRoute(
-      path: '/projects',
-      builder: (context, state) => const ProjectsPage(),
+    ShellRoute(
+      builder: (context, state, child) {
+        return HomePage(child: child,);
+      },
+      routes: [
+        GoRoute(
+          path: AppRoutes.dashboard,
+          builder: (context, state) => const DashboardPage(),
+        ),
+        GoRoute(
+          path: AppRoutes.projects,
+          builder: (context, state) => const ProjectsPage(),
+        ),
+      ],
     ),
   ],
 );

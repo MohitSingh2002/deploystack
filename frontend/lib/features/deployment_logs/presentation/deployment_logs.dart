@@ -13,18 +13,20 @@ class DeploymentLogs extends StatefulWidget {
 
 class _DeploymentLogsState extends State<DeploymentLogs> {
   ScrollController _scrollController = ScrollController();
+  late DeploymentLogsBloc _logsBloc;
 
   @override
   void initState() {
     super.initState();
 
-    context.read<DeploymentLogsBloc>().add(DeploymentLogsJoinDeploymentEvent());
-    context.read<DeploymentLogsBloc>().add(DeploymentLogsConnectSocketEvent());
+    _logsBloc = context.read<DeploymentLogsBloc>();
+    _logsBloc.add(DeploymentLogsJoinDeploymentEvent());
+    _logsBloc.add(DeploymentLogsConnectSocketEvent());
   }
 
   @override
   void dispose() {
-    context.read<DeploymentLogsBloc>().add(DeploymentLogsDisconnectDeploymentEvent());
+    _logsBloc.add(DeploymentLogsDisconnectDeploymentEvent());
     _scrollController.dispose();
 
     super.dispose();

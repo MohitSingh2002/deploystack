@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class HomeScreenChips extends StatelessWidget {
+class DashboardPageChips extends StatelessWidget {
   final List<String> items;
   final int selectedIndex;
   final Function(int) onSelected;
 
-  const HomeScreenChips({
+  const DashboardPageChips({
     super.key,
     required this.items,
     required this.selectedIndex,
