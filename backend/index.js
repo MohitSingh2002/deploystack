@@ -16,6 +16,7 @@ const gitAuthCheckRouter = require('./features/git_auth/routes/authentication/gi
 const githubRepositoriesRouter = require('./features/github_repositories/routes/v1/github_repositories');
 const githubBranchesRouter = require('./features/github_repositories/routes/v1/github_branches');
 const deploymentRouter = require('./features/deployment/routes/v1/deployment');
+const projectRouter = require('./features/project/routes/v1/project');
 
 const app = express();
 var server = http.createServer(app);
@@ -35,6 +36,7 @@ app.use('/api', gitAuthCheckRouter);
 app.use('/api', githubRepositoriesRouter);
 app.use('/api', githubBranchesRouter);
 app.use('/api', deploymentRouter);
+app.use('/api', projectRouter);
 
 const PORT = 5001;
 

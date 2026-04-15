@@ -5,6 +5,7 @@ import 'package:deploystack/core/theme/app_theme.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:deploystack/features/auth/presentation/pages/signup_page.dart';
 import 'package:deploystack/features/git_auth/presentation/bloc/git_auth/git_auth_bloc.dart';
+import 'package:deploystack/router.dart';
 import 'features/deployment_logs/presentation/bloc/deployment_logs/deployment_logs_bloc.dart';
 import 'features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
 import 'package:deploystack/features/home/presentation/pages/home_page.dart';
@@ -48,23 +49,11 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'DeployStack',
       theme: AppTheme.theme,
-      home: BlocBuilder<AuthBloc, AuthState>(
-        builder: (context, state) {
-          if (state is AuthLoading) {
-            return Scaffold(
-              body: Loading(),
-            );
-          }
-          if (state is AuthSuccess) {
-            return HomePage();
-          }
-          return SignUpPage();
-        },
-      ),
+      routerConfig: router,
     );
   }
 }

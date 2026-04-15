@@ -63,9 +63,10 @@ async function consumeKafka(io) {
                     resolveOffset(message.offset);
 
                     await heartbeat();
-
+                    io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, KAFKA_DEPLOYMENT_COMPLETED);
                     logDeployment('\nProcess Completed');
                 } catch (err) {
+                    io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, KAFKA_DEPLOYMENT_FAILED);
                     logDeployment('\n' + JSON.stringify(err.message));
                     console.error("Deployment failed:", err.message);
                     resolveOffset(message.offset);
