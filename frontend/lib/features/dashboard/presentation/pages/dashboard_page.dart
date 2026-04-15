@@ -6,7 +6,7 @@ import '../../../git_auth/presentation/git_auth.dart';
 import '../../../git_deployment/presentation/git_deployment.dart';
 import '../../../home/presentation/components/home_page_docker_component.dart';
 import '../../../home/presentation/components/home_page_public_git_component.dart';
-import 'dashboard_page_chips.dart';
+import '../dashboard_page_chips.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});

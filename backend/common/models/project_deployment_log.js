@@ -14,5 +14,17 @@ const projectDeploymentLogSchema = mongoose.Schema({
     timestamps: true
 });
 
+projectDeploymentLogSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    if (ret.createdAt) {
+      ret.createdAt = ret.createdAt.toISOString();
+    }
+    if (ret.updatedAt) {
+      ret.updatedAt = ret.updatedAt.toISOString();
+    }
+    return ret;
+  }
+});
+
 const ProjectDeploymentLog = mongoose.model('ProjectDeploymentLog', projectDeploymentLogSchema);
 module.exports = ProjectDeploymentLog;

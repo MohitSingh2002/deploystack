@@ -10,7 +10,7 @@ class GitHubProjectModel extends GitHubProject {
       ownerName: map['ownerName'] ?? '',
       repoName: map['repoName'] ?? '',
       branchName: map['branchName'] ?? '',
-      createdAt: DateTime.parse(map['createdAt']),
+      createdAt: DateTime.parse(map['createdAt']).toLocal(),
     );
   }
 }

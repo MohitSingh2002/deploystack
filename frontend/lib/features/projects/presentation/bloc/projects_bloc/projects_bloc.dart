@@ -25,7 +25,11 @@ class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
         emit(ProjectsFailureState(message: failure.message,));
       },
       (success) {
-        emit(ProjectsSuccessState(projectList: success,));
+        if (success.isEmpty) {
+          emit(NoProjectsSuccessState());
+        } else {
+          emit(ProjectsSuccessState(projectList: success,));
+        }
       }
     );
   }

@@ -23,5 +23,17 @@ const projectSchema = mongoose.Schema({
     timestamps: true
 });
 
+projectSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    if (ret.createdAt) {
+      ret.createdAt = ret.createdAt.toISOString();
+    }
+    if (ret.updatedAt) {
+      ret.updatedAt = ret.updatedAt.toISOString();
+    }
+    return ret;
+  }
+});
+
 const Project = mongoose.model('Project', projectSchema);
 module.exports = Project;

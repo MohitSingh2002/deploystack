@@ -6,6 +6,9 @@ class AppRoutes {
   static const String signup = '/signup';
   static const String dashboard = '/';
   static const String projects = '/projects';
+  static String logs({required String projectId,}) {
+    return '/project/logs?projectId=$projectId';
+  }
 
   static String getCurrentRoute({required BuildContext context,}) {
     return GoRouterState.of(context).matchedLocation;

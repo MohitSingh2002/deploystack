@@ -29,6 +29,8 @@ import 'package:deploystack/features/git_deployment/domain/repository/git_deploy
 import 'package:deploystack/features/git_deployment/domain/usecases/deploy_git_repository.dart';
 import 'package:deploystack/features/git_deployment/domain/usecases/fetch_user_github_repositories.dart';
 import 'package:deploystack/features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
+import 'package:deploystack/features/project_deployment_logs/data/repositories/project_deployment_log_repo_impl.dart';
+import 'package:deploystack/features/project_deployment_logs/domain/usecases/fetch_project_deployment_logs.dart';
 import 'package:deploystack/features/projects/data/data_sources/projects_remote_data_source.dart';
 import 'package:deploystack/features/projects/data/repositories/projects_repo_impl.dart';
 import 'package:deploystack/features/projects/domain/repository/projects_repo.dart';
@@ -38,6 +40,9 @@ import 'package:get_it/get_it.dart';
 
 import 'features/git_deployment/data/data_sources/git_hub_repo_branch_remote_data_source.dart';
 import 'features/git_deployment/domain/usecases/fetch_github_repository_branches.dart';
+import 'features/project_deployment_logs/data/data_sources/project_deployment_log_remote_data_source.dart';
+import 'features/project_deployment_logs/domain/repository/project_deployment_log_repo.dart';
+import 'features/project_deployment_logs/presentation/bloc/project_deployment_logs_bloc/project_deployment_logs_bloc.dart';
 
 final serviceLocator = GetIt.instance;
 
@@ -48,6 +53,7 @@ Future<void> initDependencies() async {
   _initGitDeployment();
   _initDeploymentLogs();
   _initProjects();
+  _initProjectDeploymentLogs();
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
@@ -206,6 +212,26 @@ void _initProjects() {
   serviceLocator.registerLazySingleton<ProjectsBloc>(
       () => ProjectsBloc(
         fetchAllProjects: serviceLocator(),
+      )
+  );
+}
+
+void _initProjectDeploymentLogs() {
+  serviceLocator.registerFactory<ProjectDeploymentLogRemoteDataSource>(
+      () => ProjectDeploymentLogRemoteDataSourceImpl()
+  );
+
+  serviceLocator.registerFactory<ProjectDeploymentLogRepo>(
+      () => ProjectDeploymentLogRepoImpl(projectDeploymentLogRemoteDataSource: serviceLocator(),)
+  );
+
+  serviceLocator.registerFactory(
+      () => FetchProjectDeploymentLogs(projectDeploymentLogRepo: serviceLocator(),)
+  );
+
+  serviceLocator.registerLazySingleton<ProjectDeploymentLogsBloc>(
+      () => ProjectDeploymentLogsBloc(
+        fetchProjectDeploymentLogs: serviceLocator(),
       )
   );
 }

@@ -7,6 +7,7 @@ import 'package:deploystack/router.dart';
 import 'features/deployment_logs/presentation/bloc/deployment_logs/deployment_logs_bloc.dart';
 import 'features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
 import 'features/projects/presentation/bloc/projects_bloc/projects_bloc.dart';
+import 'features/project_deployment_logs/presentation/bloc/project_deployment_logs_bloc/project_deployment_logs_bloc.dart';
 import 'package:deploystack/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,6 +24,7 @@ void main() async {
           BlocProvider(create: (_) => serviceLocator<GitDeploymentBloc>()),
           BlocProvider(create: (_) => serviceLocator<DeploymentLogsBloc>()),
           BlocProvider(create: (_) => serviceLocator<ProjectsBloc>()),
+          BlocProvider(create: (_) => serviceLocator<ProjectDeploymentLogsBloc>()),
         ],
         child: const MyApp(),
       )

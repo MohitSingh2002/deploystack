@@ -10,6 +10,7 @@ import 'features/auth/presentation/pages/signup_page.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'package:deploystack/features/projects/presentation/pages/projects_page.dart';
 
+import 'features/project_deployment_logs/presentation/pages/project_deployment_logs_page.dart';
 import 'init_dependencies.dart';
 
 class GoRouterRefreshStream extends ChangeNotifier {
@@ -77,6 +78,13 @@ final router = GoRouter(
           builder: (context, state) => const ProjectsPage(),
         ),
       ],
+    ),
+    GoRoute(
+      path: '/project/logs',
+      builder: (context, state) {
+        final projectId = state.uri.queryParameters['projectId'] ?? '';
+        return ProjectDeploymentLogsPage(projectId: projectId);
+      },
     ),
   ],
 );

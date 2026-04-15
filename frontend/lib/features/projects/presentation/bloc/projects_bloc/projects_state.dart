@@ -13,6 +13,8 @@ final class ProjectsFailureState extends ProjectsState {
   ProjectsFailureState({required this.message,});
 }
 
+final class NoProjectsSuccessState extends ProjectsState {}
+
 final class ProjectsSuccessState extends ProjectsState {
   final List<Project> projectList;
 

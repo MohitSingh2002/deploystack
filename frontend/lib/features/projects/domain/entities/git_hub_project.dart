@@ -25,7 +25,16 @@ class GitHubProject {
     final day = createdAt.day;
     final year = createdAt.year;
 
-    return '$month $day, $year';
+    int hour = createdAt.hour;
+    final minute = createdAt.minute;
+
+    final period = hour >= 12 ? 'PM' : 'AM';
+    hour = hour % 12;
+    if (hour == 0) hour = 12;
+
+    final formattedMinute = minute.toString().padLeft(2, '0');
+
+    return '$month $day, $year at $hour:$formattedMinute $period';
   }
 
   @override

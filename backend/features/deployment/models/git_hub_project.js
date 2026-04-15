@@ -25,5 +25,17 @@ const gitHubProjectSchema = mongoose.Schema({
     timestamps: true
 });
 
+gitHubProjectSchema.set('toJSON', {
+  transform: function (doc, ret) {
+    if (ret.createdAt) {
+      ret.createdAt = ret.createdAt.toISOString();
+    }
+    if (ret.updatedAt) {
+      ret.updatedAt = ret.updatedAt.toISOString();
+    }
+    return ret;
+  }
+});
+
 const GitHubProject = mongoose.model('GitHubProject', gitHubProjectSchema);
 module.exports = GitHubProject;

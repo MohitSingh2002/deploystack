@@ -7,15 +7,6 @@ const productDeploymentEvent = require('../../../../common/kafka/producer');
 const Project = require('../../../../common/models/project');
 const GitHubProject = require('../../models/git_hub_project');
 
-/**
- * const zlib = require('zlib');
-
-function readLogsFromDB(record) {
-    const decompressed = zlib.gunzipSync(record.logs);
-    return decompressed.toString();
-}
- */
-
 deploymentRouter.post('/v1/deploy-git-hub-repo', async (req, res) => {
     let event = {
         'type': 'git-repo-deployment',

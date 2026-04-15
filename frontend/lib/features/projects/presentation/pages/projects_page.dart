@@ -1,8 +1,10 @@
 import 'package:deploystack/core/common/widgets/loading.dart';
+import 'package:deploystack/core/utils/app_routes.dart';
 import 'package:deploystack/core/utils/show_snackbar.dart';
 import 'package:deploystack/features/projects/presentation/widgets/project_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../bloc/projects_bloc/projects_bloc.dart';
@@ -35,6 +37,18 @@ class _ProjectsPageState extends State<ProjectsPage> {
         builder: (context, state) {
           if (state is ProjectsLoadingState) {
             return Loading();
+          }
+
+          if (state is NoProjectsSuccessState) {
+            return Center(
+              child: Text(
+                'No Projects Found.',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            );
           }
 
           if (state is ProjectsSuccessState) {
@@ -96,7 +110,12 @@ class _ProjectsPageState extends State<ProjectsPage> {
                       itemBuilder: (context, index) {
                         final project = projects[index];
 
-                        return ProjectCard(project: project,);
+                        return ProjectCard(
+                          onClick: () {
+                            context.go(AppRoutes.logs(projectId: project.id));
+                          },
+                          project: project,
+                        );
                       },
                     ),
                   ),

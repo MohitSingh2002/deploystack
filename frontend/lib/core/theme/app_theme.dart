@@ -7,7 +7,10 @@ class AppTheme {
 
   static ThemeData theme = ThemeData(
     colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-    textTheme: GoogleFonts.spaceGroteskTextTheme(),
+    textTheme: GoogleFonts.spaceGroteskTextTheme().apply(
+      bodyColor: AppColors.white,
+      displayColor: AppColors.white,
+    ),
     scaffoldBackgroundColor: AppColors.backgroundColor,
   );
 
