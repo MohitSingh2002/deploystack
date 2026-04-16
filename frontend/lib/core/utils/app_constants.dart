@@ -1,4 +1,5 @@
 class AppConstants {
+  // static const String host = 'http://139.59.95.38:5001';
   static const String host = 'http://localhost:5001';
   static const String backendConnectionUrl = '$host/api';
   // static const String backendConnectionUrl = 'https://andrea-coal-coast-andale.trycloudflare.com/api';

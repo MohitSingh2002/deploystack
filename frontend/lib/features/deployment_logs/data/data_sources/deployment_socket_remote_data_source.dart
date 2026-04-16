@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:deploystack/core/utils/app_constants.dart';
 import 'package:deploystack/features/deployment_logs/data/data_sources/socket_service.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
 abstract interface class DeploymentSocketRemoteDataSource {
   Future<void> joinDeployment();
@@ -16,7 +17,11 @@ class DeploymentSocketRemoteDataSourceImpl implements DeploymentSocketRemoteData
   Future<void> joinDeployment() async {
     final socketService = SocketService.instance.socket!;
 
-    socketService.emit(AppConstants.socketId);
+    socketService.onConnect((_) {
+      socketService.emit(AppConstants.socketId);
+    });
+
+    // socketService.emit(AppConstants.socketId);
   }
 
   @override
@@ -36,6 +41,8 @@ class DeploymentSocketRemoteDataSourceImpl implements DeploymentSocketRemoteData
     socketService.on(AppConstants.socketDeploymentEvent, (data) {
       controller.add(data);
     });
+
+    SocketService.instance.connect();
 
     return controller.stream;
   }

@@ -10,7 +10,9 @@ class SocketService {
       'forceNew': true,
       'autoConnect': false,
     });
-    socket!.connect();
+
+    socket!.onConnect((_) {});
+    // socket!.connect();
     socket!.onConnectError((data) => print('onConnectError : $data'));
     socket!.onError((data) => print('onError : $data'));
   }
