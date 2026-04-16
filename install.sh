@@ -101,11 +101,35 @@ echo -e "${GREEN}✅ Docker and Docker Compose installed successfully!${NC}"
 
 echo -e "${YELLOW}Step 8: Installing Nixpacks...${NC}"
 curl -sSL https://nixpacks.com/install.sh | bash
-echo -e "${GREEN}✅ Nixpacks installed successfully!${NC}"
+echo -e "${GREEN}Nixpacks installed successfully!${NC}"
 
 echo -e "${YELLOW}Step 9: Installing Docker Buildx...${NC}"
 mkdir -p ~/.docker/cli-plugins/
 curl -SL https://github.com/docker/buildx/releases/download/v0.33.0/buildx-v0.33.0.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
 chmod +x ~/.docker/cli-plugins/docker-buildx
 docker buildx version
-echo -e "${GREEN}✅ Docker Buildx installed successfully!${NC}"
+echo -e "${GREEN}Docker Buildx installed successfully!${NC}"
+
+echo -e "${YELLOW}Step 10: Building Flutter base Docker image...${NC}"
+
+mkdir -p /opt/flutter-base
+cd /opt/flutter-base
+
+cat <<EOF > Dockerfile
+FROM ubuntu:22.04
+
+RUN apt-get update && apt-get install -y \
+    curl git unzip xz-utils zip libglu1-mesa \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN git clone https://github.com/flutter/flutter.git /opt/flutter
+ENV PATH="/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin:\${PATH}"
+
+RUN flutter doctor
+
+WORKDIR /app
+EOF
+
+docker build -t flutter-base .
+
+echo -e "${GREEN}Flutter base image built successfully!${NC}"
