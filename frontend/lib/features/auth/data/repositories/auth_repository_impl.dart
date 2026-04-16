@@ -6,7 +6,7 @@ import 'package:fpdart/src/either.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
 
-  AuthRemoteDataSource _authRemoteDataSource;
+  final AuthRemoteDataSource _authRemoteDataSource;
 
   AuthRepositoryImpl({required AuthRemoteDataSource authRemoteDataSource}) : _authRemoteDataSource = authRemoteDataSource;
 

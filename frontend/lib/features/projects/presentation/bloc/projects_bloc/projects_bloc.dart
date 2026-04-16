@@ -8,7 +8,7 @@ part 'projects_event.dart';
 part 'projects_state.dart';
 
 class ProjectsBloc extends Bloc<ProjectsEvent, ProjectsState> {
-  FetchAllProjects _fetchAllProjects;
+  final FetchAllProjects _fetchAllProjects;
 
   ProjectsBloc({required FetchAllProjects fetchAllProjects}) : _fetchAllProjects = fetchAllProjects, super(ProjectsInitial()) {
     on<ProjectsEvent>((event, emit) {

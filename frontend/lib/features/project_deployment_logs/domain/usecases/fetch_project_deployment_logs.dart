@@ -5,7 +5,7 @@ import 'package:deploystack/features/project_deployment_logs/domain/repository/p
 import 'package:fpdart/src/either.dart';
 
 class FetchProjectDeploymentLogs implements UseCase<List<ProjectDeploymentLog>, FetchProjectDeploymentLogsParams>{
-  ProjectDeploymentLogRepo _projectDeploymentLogRepo;
+  final ProjectDeploymentLogRepo _projectDeploymentLogRepo;
 
   FetchProjectDeploymentLogs({required ProjectDeploymentLogRepo projectDeploymentLogRepo}) : _projectDeploymentLogRepo = projectDeploymentLogRepo;
 

@@ -7,7 +7,7 @@ part 'project_deployment_logs_event.dart';
 part 'project_deployment_logs_state.dart';
 
 class ProjectDeploymentLogsBloc extends Bloc<ProjectDeploymentLogsEvent, ProjectDeploymentLogsState> {
-  FetchProjectDeploymentLogs _fetchProjectDeploymentLogs;
+  final FetchProjectDeploymentLogs _fetchProjectDeploymentLogs;
 
   ProjectDeploymentLogsBloc({required FetchProjectDeploymentLogs fetchProjectDeploymentLogs}) :
         _fetchProjectDeploymentLogs = fetchProjectDeploymentLogs,

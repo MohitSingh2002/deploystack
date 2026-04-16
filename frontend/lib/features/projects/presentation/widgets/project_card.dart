@@ -7,7 +7,7 @@ class ProjectCard extends StatelessWidget {
   Project project;
   Function()? onClick;
 
-  ProjectCard({required this.project, required this.onClick,});
+  ProjectCard({super.key, required this.project, required this.onClick,});
 
   @override
   Widget build(BuildContext context) {

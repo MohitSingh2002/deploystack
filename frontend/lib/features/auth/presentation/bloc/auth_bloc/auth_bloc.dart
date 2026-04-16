@@ -10,9 +10,9 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
-  UserSignUp _userSignUp;
-  CurrentUser _currentUser;
-  AppUserCubit _appUserCubit;
+  final UserSignUp _userSignUp;
+  final CurrentUser _currentUser;
+  final AppUserCubit _appUserCubit;
 
   AuthBloc({required UserSignUp userSignUp, required CurrentUser currentUser, required AppUserCubit appUserCubit})
       : _userSignUp = userSignUp,

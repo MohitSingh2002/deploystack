@@ -6,7 +6,7 @@ import 'package:deploystack/features/projects/domain/repository/projects_repo.da
 import 'package:fpdart/src/either.dart';
 
 class ProjectsRepoImpl implements ProjectsRepo {
-  ProjectsRemoteDataSource _projectsRemoteDataSource;
+  final ProjectsRemoteDataSource _projectsRemoteDataSource;
 
   ProjectsRepoImpl({required ProjectsRemoteDataSource projectsRemoteDataSource,}) : _projectsRemoteDataSource = projectsRemoteDataSource;
 

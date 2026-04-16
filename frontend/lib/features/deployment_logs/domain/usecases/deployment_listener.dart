@@ -5,7 +5,7 @@ import 'package:fpdart/src/either.dart';
 import '../repository/deployment_logs_repository.dart';
 
 class DeploymentListener implements UseCase<Stream<dynamic>, NoParams>{
-  DeploymentLogsRepository _deploymentLogsRepository;
+  final DeploymentLogsRepository _deploymentLogsRepository;
 
   DeploymentListener({required DeploymentLogsRepository deploymentLogsRepository,}) : _deploymentLogsRepository = deploymentLogsRepository;
 

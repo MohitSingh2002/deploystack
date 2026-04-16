@@ -9,7 +9,7 @@ part 'git_authenticated_event.dart';
 part 'git_authenticated_state.dart';
 
 class GitAuthenticatedBloc extends Bloc<GitAuthenticatedEvent, GitAuthenticatedState> {
-  CheckIfGithubAppInstalled _checkIfGithubAppInstalled;
+  final CheckIfGithubAppInstalled _checkIfGithubAppInstalled;
 
   GitAuthenticatedBloc({required CheckIfGithubAppInstalled checkIfGithubAppInstalled}) : _checkIfGithubAppInstalled = checkIfGithubAppInstalled,
   super(GitAuthenticatedInitial()) {

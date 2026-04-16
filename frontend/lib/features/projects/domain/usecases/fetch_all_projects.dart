@@ -5,7 +5,7 @@ import 'package:deploystack/features/projects/domain/repository/projects_repo.da
 import 'package:fpdart/src/either.dart';
 
 class FetchAllProjects implements UseCase<List<Project>, NoParams> {
-  ProjectsRepo _projectsRepo;
+  final ProjectsRepo _projectsRepo;
 
   FetchAllProjects({required ProjectsRepo projectsRepo,}) : _projectsRepo = projectsRepo;
 

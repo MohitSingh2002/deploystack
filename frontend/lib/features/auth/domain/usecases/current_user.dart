@@ -4,7 +4,7 @@ import 'package:deploystack/features/auth/domain/repository/auth_repository.dart
 import 'package:fpdart/src/either.dart';
 
 class CurrentUser implements UseCase<String, NoParams> {
-  AuthRepository _authRepository;
+  final AuthRepository _authRepository;
 
   CurrentUser({required AuthRepository authRepository}) : _authRepository = authRepository;
 

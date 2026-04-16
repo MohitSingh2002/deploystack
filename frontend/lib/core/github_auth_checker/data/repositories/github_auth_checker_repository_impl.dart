@@ -5,7 +5,7 @@ import 'package:deploystack/core/github_auth_checker/domain/repository/github_au
 import 'package:fpdart/src/either.dart';
 
 class GithubAuthCheckerRepositoryImpl implements GithubAuthCheckerRepository {
-  GithubAuthCheckerRemoteDataSource _githubAuthCheckerRemoteDataSource;
+  final GithubAuthCheckerRemoteDataSource _githubAuthCheckerRemoteDataSource;
 
   GithubAuthCheckerRepositoryImpl({required GithubAuthCheckerRemoteDataSource githubAuthCheckerRemoteDataSource}) : _githubAuthCheckerRemoteDataSource = githubAuthCheckerRemoteDataSource;
 

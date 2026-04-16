@@ -4,7 +4,7 @@ import 'package:deploystack/features/git_auth/domain/repository/git_auth_reposit
 import 'package:fpdart/src/either.dart';
 
 class ConnectGithub implements UseCase<void, NoParams> {
-  GitAuthRepository _gitAuthRepository;
+  final GitAuthRepository _gitAuthRepository;
 
   ConnectGithub({required GitAuthRepository gitAuthRepository,}) : _gitAuthRepository = gitAuthRepository;
 

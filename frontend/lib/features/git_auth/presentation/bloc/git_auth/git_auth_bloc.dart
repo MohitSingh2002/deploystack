@@ -7,7 +7,7 @@ part 'git_auth_event.dart';
 part 'git_auth_state.dart';
 
 class GitAuthBloc extends Bloc<GitAuthEvent, GitAuthState> {
-  ConnectGithub _connectGithub;
+  final ConnectGithub _connectGithub;
 
   GitAuthBloc({required ConnectGithub connectGithub}) : _connectGithub = connectGithub, super(GitAuthInitial()) {
     on<GitAuthEvent>((event, emit) {

@@ -9,7 +9,7 @@ class AppButton extends StatelessWidget {
   bool showIcon;
   IconData? icon;
 
-  AppButton({
+  AppButton({super.key, 
     required this.onPressed,
     required this.buttonText,
     this.showIcon = false,

@@ -4,7 +4,7 @@ import 'package:deploystack/core/usecase/usecase.dart';
 import 'package:fpdart/src/either.dart';
 
 class CheckIfGithubAppInstalled implements UseCase<bool, NoParams> {
-  GithubAuthCheckerRepository _githubAuthCheckerRepository;
+  final GithubAuthCheckerRepository _githubAuthCheckerRepository;
 
   CheckIfGithubAppInstalled({required GithubAuthCheckerRepository githubAuthCheckerRepository}) : _githubAuthCheckerRepository = githubAuthCheckerRepository;
 

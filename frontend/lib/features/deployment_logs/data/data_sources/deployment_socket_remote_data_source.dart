@@ -14,26 +14,26 @@ abstract interface class DeploymentSocketRemoteDataSource {
 class DeploymentSocketRemoteDataSourceImpl implements DeploymentSocketRemoteDataSource {
   @override
   Future<void> joinDeployment() async {
-    final _socketService = SocketService.instance.socket!;
+    final socketService = SocketService.instance.socket!;
 
-    _socketService.emit(AppConstants.socketId);
+    socketService.emit(AppConstants.socketId);
   }
 
   @override
   Future<void> disconnectDeployment() async {
-    final _socketService = SocketService.instance;
+    final socketService = SocketService.instance;
 
-    _socketService.disconnect();
+    socketService.disconnect();
   }
 
   @override
   Stream<dynamic> deploymentListener() {
-    final _socketService = SocketService.instance.socket!;
+    final socketService = SocketService.instance.socket!;
 
     final controller = StreamController<dynamic>();
 
-    _socketService.off(AppConstants.socketDeploymentEvent);
-    _socketService.on(AppConstants.socketDeploymentEvent, (data) {
+    socketService.off(AppConstants.socketDeploymentEvent);
+    socketService.on(AppConstants.socketDeploymentEvent, (data) {
       controller.add(data);
     });
 

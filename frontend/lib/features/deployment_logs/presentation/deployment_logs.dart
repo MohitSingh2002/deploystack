@@ -12,7 +12,7 @@ class DeploymentLogs extends StatefulWidget {
 }
 
 class _DeploymentLogsState extends State<DeploymentLogs> {
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   late DeploymentLogsBloc _logsBloc;
 
   @override

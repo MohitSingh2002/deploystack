@@ -10,7 +10,7 @@ class HomePageCard extends StatelessWidget {
   String description;
   Widget child;
 
-  HomePageCard({
+  HomePageCard({super.key, 
     this.showIcon = false,
     this.icon,
     required this.title,

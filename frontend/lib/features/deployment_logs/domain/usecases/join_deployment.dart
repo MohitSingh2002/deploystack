@@ -4,7 +4,7 @@ import 'package:deploystack/features/deployment_logs/domain/repository/deploymen
 import 'package:fpdart/src/either.dart';
 
 class JoinDeployment implements UseCase<void, NoParams> {
-  DeploymentLogsRepository _deploymentLogsRepository;
+  final DeploymentLogsRepository _deploymentLogsRepository;
 
   JoinDeployment({required DeploymentLogsRepository deploymentLogsRepository,}) : _deploymentLogsRepository = deploymentLogsRepository;
 

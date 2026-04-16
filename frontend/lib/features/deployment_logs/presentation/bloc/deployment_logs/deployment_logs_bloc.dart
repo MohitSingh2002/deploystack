@@ -12,9 +12,9 @@ part 'deployment_logs_event.dart';
 part 'deployment_logs_state.dart';
 
 class DeploymentLogsBloc extends Bloc<DeploymentLogsEvent, DeploymentLogsState> {
-  JoinDeployment _joinDeployment;
-  DisconnectDeployment _disconnectDeployment;
-  DeploymentListener _deploymentListener;
+  final JoinDeployment _joinDeployment;
+  final DisconnectDeployment _disconnectDeployment;
+  final DeploymentListener _deploymentListener;
 
   DeploymentLogsBloc({
     required JoinDeployment joinDeployment,

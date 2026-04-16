@@ -5,7 +5,7 @@ import 'package:deploystack/features/deployment_logs/domain/repository/deploymen
 import 'package:fpdart/src/either.dart';
 
 class DeploymentLogsRepositoryImpl implements DeploymentLogsRepository {
-  DeploymentSocketRemoteDataSource _deploymentSocketRemoteDataSource;
+  final DeploymentSocketRemoteDataSource _deploymentSocketRemoteDataSource;
 
   DeploymentLogsRepositoryImpl({required DeploymentSocketRemoteDataSource deploymentSocketRemoteDataSource,}) : _deploymentSocketRemoteDataSource = deploymentSocketRemoteDataSource;
 

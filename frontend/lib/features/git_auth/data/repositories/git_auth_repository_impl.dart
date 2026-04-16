@@ -5,7 +5,7 @@ import 'package:deploystack/features/git_auth/domain/repository/git_auth_reposit
 import 'package:fpdart/src/either.dart';
 
 class GitAuthRepositoryImpl implements GitAuthRepository {
-  GitAuthRemoteDataSource _gitAuthRemoteDataSource;
+  final GitAuthRemoteDataSource _gitAuthRemoteDataSource;
 
   GitAuthRepositoryImpl({required GitAuthRemoteDataSource gitAuthRemoteDataSource,}) : _gitAuthRemoteDataSource = gitAuthRemoteDataSource;
 

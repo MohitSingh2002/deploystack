@@ -5,7 +5,7 @@ import 'package:fpdart/src/either.dart';
 
 class UserSignUp implements UseCase<bool, UserSignUpParams> {
 
-  AuthRepository _authRepository;
+  final AuthRepository _authRepository;
 
   UserSignUp({required AuthRepository authRepository}) : _authRepository = authRepository;
 

@@ -11,7 +11,7 @@ class HomePageSideItem extends StatelessWidget {
   bool active = false;
   String route;
 
-  HomePageSideItem({required this.icon, required this.title, this.active = false, required this.route,});
+  HomePageSideItem({super.key, required this.icon, required this.title, this.active = false, required this.route,});
 
   @override
   Widget build(BuildContext context) {

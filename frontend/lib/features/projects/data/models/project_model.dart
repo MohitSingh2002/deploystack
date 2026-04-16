@@ -5,20 +5,20 @@ class ProjectModel extends Project {
   ProjectModel({required super.id, required super.name, required super.type, required super.port, super.gitHubProject,});
 
   factory ProjectModel.fromJson(Map<String, dynamic> map) {
-    GitHubProjectModel? _gitHubProjectModel;
+    GitHubProjectModel? gitHubProjectModel;
 
     if (map['type'] == 'git-repo-deployment') {
-      _gitHubProjectModel = GitHubProjectModel.fromJson(map['gitHubProject']);
+      gitHubProjectModel = GitHubProjectModel.fromJson(map['gitHubProject']);
     }
 
-    ProjectModel _model = ProjectModel(
+    ProjectModel model = ProjectModel(
       id: map['_id'] ?? '',
       name: map['name'] ?? '',
       type: map['type'] ?? '',
       port: map['port'] ?? '',
-      gitHubProject: _gitHubProjectModel
+      gitHubProject: gitHubProjectModel
     );
 
-    return _model;
+    return model;
   }
 }
