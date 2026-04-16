@@ -110,26 +110,8 @@ chmod +x ~/.docker/cli-plugins/docker-buildx
 docker buildx version
 echo -e "${GREEN}Docker Buildx installed successfully!${NC}"
 
-echo -e "${YELLOW}Step 10: Building Flutter base Docker image...${NC}"
+echo -e "${YELLOW}Step 10: Pulling Flutter base image from Docker Hub...${NC}"
 
-mkdir -p /opt/flutter-base
-cd /opt/flutter-base
+docker pull mohitsingh2002/flutter-base:latest
 
-cat <<EOF > Dockerfile
-FROM ubuntu:22.04
-
-RUN apt-get update && apt-get install -y \
-    curl git unzip xz-utils zip libglu1-mesa \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN git clone https://github.com/flutter/flutter.git /opt/flutter
-ENV PATH="/opt/flutter/bin:/opt/flutter/bin/cache/dart-sdk/bin:\${PATH}"
-
-RUN flutter doctor
-
-WORKDIR /app
-EOF
-
-docker build -t flutter-base .
-
-echo -e "${GREEN}Flutter base image built successfully!${NC}"
+echo -e "${GREEN}Flutter base image pulled successfully!${NC}"
