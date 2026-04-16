@@ -90,7 +90,7 @@ echo -e "${GREEN}✅ Docker and Docker Compose installed successfully!${NC}"
 # echo -e "${YELLOW}⚠️  Log out and back in for docker group changes to take effect.${NC}"
 
 # echo -e "${YELLOW}Step 8: Installing latest Node.js...${NC}"
-# curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+# curl -fsSL https://deb.nodesource.com/setup_current.x | bash
 # apt-get install -y nodejs
 
 # # Verify installation
