@@ -4,6 +4,8 @@ const fs = require('fs');
 const { KAFKA_TOPIC_DEPLOYMENT, KAFKA_DEPLOYMENT_EVENT } = require('../../kafka/kafka_contansts');
 
 const nodeDeployment = require('./framework_deployment/node_deployment');
+const dartDeployment = require('./framework_deployment/dart_deployment');
+
 const { clearLogs, logDeployment } = require('../../helpers/log_deployment');
 const cloneGitRepo = require('./git_repo_clone');
 
@@ -56,6 +58,8 @@ async function gitRepoDeployment(data, io, projectId, port) {
             throw new Error('Could not detect framework');
         } else if (framework === 'node') {
             await nodeDeployment(projectPath, data.repoName, io, projectId, port);
+        } else if (framework === 'dart') {
+            await dartDeployment(projectPath, data.repoName, io, projectId, port);
         }
 
         if (fs.existsSync(projectPath)) {

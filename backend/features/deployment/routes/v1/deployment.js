@@ -13,14 +13,15 @@ deploymentRouter.post('/v1/deploy-git-hub-repo', async (req, res) => {
         'data': req.body
     };
 
-    const existingProject = await Project.findOne({
-        type: 'git-repo-deployment'
-    }).populate({
-        path: 'gitHubProject',
-        match: { repoName: req.body.repoName }
+    const existingGitHubProject = await GitHubProject.findOne({
+        repoName: req.body.repoName
     });
 
-    if (existingProject && existingProject.gitHubProject) {
+    if (existingGitHubProject) {
+        const existingProject = await Project.findOne({
+            gitHubProject: existingGitHubProject._id
+        });
+
         event.projectId = existingProject._id;
         event = {...event, projectId: existingProject._id, port: existingProject.port};
     } else {
