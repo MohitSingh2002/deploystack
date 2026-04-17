@@ -1,5 +1,5 @@
 // TODO : Change localhost to kafka if you want to run it with Docker
-const KAFKA_BROKER_URL = 'localhost:9092';
+const KAFKA_BROKER_URL = 'kafka:9092';
 const KAFKA_CLIENT_ID = 'deploystack';
 const KAFKA_TOPIC_DEPLOYMENT = 'deployment';
 const KAFKA_PRODUCER = 'deployment-producer';

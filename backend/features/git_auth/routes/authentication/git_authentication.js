@@ -60,7 +60,7 @@ gitAuthenticationRouter.get("/setup", async (req, res) => {
         { new: true, upsert: true }
     );
 
-    return res.redirect('http://localhost:60501/');
+    return res.redirect('http://localhost:8080/');
 });
 
 // Optional: Webhook receiver

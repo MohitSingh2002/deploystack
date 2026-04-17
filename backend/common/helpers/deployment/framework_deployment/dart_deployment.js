@@ -15,15 +15,14 @@ const Project = require('../../../models/project');
 async function dartDeployment(projectPath, imageName, io, projectId, port) {
     try {
         const dockerfileContent = `# Stage 1: Build
-FROM mohitsingh2002/flutter-base:latest AS builder
+FROM ghcr.io/cirruslabs/flutter:stable AS builder
 
 WORKDIR /app
 COPY . .
 
 RUN flutter pub get
-RUN flutter build web
+RUN flutter build web --release
 
-# Stage 2: Serve
 FROM nginx:alpine
 
 COPY --from=builder /app/build/web /usr/share/nginx/html
