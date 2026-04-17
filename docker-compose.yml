@@ -1,17 +1,17 @@
 version: "3.8"
 
 services:
-  backend:
-    build: ./backend
-    container_name: node_backend
-    ports:
-      - "5001:5001"
-    depends_on:
-      - mongo
-      - kafka
-    # env_file:
-    #   - ./backend/.env
-    restart: unless-stopped
+  # backend:
+  #   build: ./backend
+  #   container_name: node_backend
+  #   ports:
+  #     - "5001:5001"
+  #   depends_on:
+  #     - mongo
+  #     - kafka
+  #   # env_file:
+  #   #   - ./backend/.env
+  #   restart: unless-stopped
 
   mongo:
     image: mongo:6
