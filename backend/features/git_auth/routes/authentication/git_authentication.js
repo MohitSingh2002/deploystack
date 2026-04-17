@@ -3,6 +3,11 @@ const axios = require('axios');
 const User = require('../../../../common/models/user');
 const Git = require('../../../../common/models/git');
 
+const GitHubProject = require('../../../deployment/models/git_hub_project');
+const Project = require('../../../../common/models/project');
+
+const productDeploymentEvent = require('../../../../common/kafka/producer');
+
 const gitAuthenticationRouter = express.Router();
 
 gitAuthenticationRouter.get("/github/callback", async (req, res) => {
@@ -64,8 +69,39 @@ gitAuthenticationRouter.get("/setup", async (req, res) => {
 });
 
 // Optional: Webhook receiver
-gitAuthenticationRouter.post("/webhook", express.json(), (req, res) => {
-//   console.log("📩 Webhook received:", req.body);
+gitAuthenticationRouter.post("/webhook", express.json(), async (req, res) => {
+  let repository = req.body.repository;
+  
+  let data = {
+    fullName: repository.full_name,
+    cloneUrl: repository.clone_url,
+    ownerName: repository.owner.name,
+    repoName: repository.name,
+    name: req.body.ref.replace('refs/heads/', ''),
+    createdAt: new Date().toString()
+  };
+
+  let event = {
+      'type': 'git-repo-deployment',
+      'data': data
+  };
+
+  const existingGitHubProject = await GitHubProject.findOne({
+    repoName: data.repoName,
+    branchName: data.name
+  });
+
+  if (existingGitHubProject) {
+    const existingProject = await Project.findOne({
+      gitHubProject: existingGitHubProject._id
+    });
+
+    event.projectId = existingProject._id;
+    event = {...event, projectId: existingProject._id, port: existingProject.port};
+  }
+
+  await productDeploymentEvent(event);
+
   res.sendStatus(200);
 });
 

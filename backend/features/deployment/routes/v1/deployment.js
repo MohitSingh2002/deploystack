@@ -14,7 +14,8 @@ deploymentRouter.post('/v1/deploy-git-hub-repo', async (req, res) => {
     };
 
     const existingGitHubProject = await GitHubProject.findOne({
-        repoName: req.body.repoName
+        repoName: req.body.repoName,
+        branchName: req.body.name
     });
 
     if (existingGitHubProject) {
