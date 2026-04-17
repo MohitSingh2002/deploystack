@@ -93,25 +93,29 @@ echo -e "${YELLOW}Step 8: Installing latest Node.js...${NC}"
 curl -fsSL https://deb.nodesource.com/setup_current.x | bash
 apt-get install -y nodejs
 
+sudo npm install -g pm2
+
 # Verify installation
 node -v
 npm -v
 
 echo -e "${GREEN}✅ Node.js installed successfully!${NC}"
 
-echo -e "${YELLOW}Step 9: Installing Nixpacks...${NC}"
-curl -sSL https://nixpacks.com/install.sh | bash
-echo -e "${GREEN}Nixpacks installed successfully!${NC}"
+# echo -e "${YELLOW}Step 9: Installing Nixpacks...${NC}"
+# curl -sSL https://nixpacks.com/install.sh | bash
+# echo -e "${GREEN}Nixpacks installed successfully!${NC}"
 
-echo -e "${YELLOW}Step 10: Installing Docker Buildx...${NC}"
+echo -e "${YELLOW}Step 9: Installing Docker Buildx...${NC}"
 mkdir -p ~/.docker/cli-plugins/
 curl -SL https://github.com/docker/buildx/releases/download/v0.33.0/buildx-v0.33.0.linux-amd64 -o ~/.docker/cli-plugins/docker-buildx
 chmod +x ~/.docker/cli-plugins/docker-buildx
 docker buildx version
 echo -e "${GREEN}Docker Buildx installed successfully!${NC}"
 
-echo -e "${YELLOW}Step 11: Pulling Flutter base image from Docker Hub...${NC}"
+echo -e "${YELLOW}Step 10: Pulling Flutter base image from Docker Hub...${NC}"
 
 docker pull mohitsingh2002/flutter-base:latest
 
 echo -e "${GREEN}Flutter base image pulled successfully!${NC}"
+
+ufw allow 5001
