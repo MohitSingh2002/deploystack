@@ -119,4 +119,27 @@ docker pull ghcr.io/cirruslabs/flutter:stable
 
 echo -e "${GREEN}Flutter base image pulled successfully!${NC}"
 
-ufw allow 5001
+
+
+
+echo -e "${YELLOW}Step 10: Configuring frontend .env with dynamic IPv4...${NC}"
+PUBLIC_IP=$(curl -s https://api.ipify.org || curl -s ifconfig.me)
+
+if [ ! -d "deploystack/frontend" ]; then
+  echo -e "${RED}Error: 'deploystack/frontend' directory not found. Please ensure the repository is cloned here.${NC}"
+else
+  echo "API_HOST=http://${PUBLIC_IP}:5001" > deploystack/frontend/.env
+  echo -e "${GREEN}Created deploystack/frontend/.env with API_HOST=http://${PUBLIC_IP}:5001${NC}"
+  
+  echo -e "${YELLOW}Step 11: Starting Application with Docker Compose...${NC}"
+  cd deploystack
+  docker-compose up -d --build
+  cd ..
+fi
+
+ufw allow 8080
+
+echo ""
+echo -e "${GREEN}================================================${NC}"
+echo -e "${GREEN}🚀 deploystack is live on http://${PUBLIC_IP}:8080${NC}"
+echo -e "${GREEN}================================================${NC}"
