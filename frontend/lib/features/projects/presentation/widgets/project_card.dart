@@ -40,14 +40,16 @@ class ProjectCard extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      project.gitHubProject?.fullName ?? '',
-                      style: const TextStyle(
-                        color: AppColors.white54,
-                        fontSize: 12,
+                    if (project.gitHubProject != null)
+                      const SizedBox(height: 4),
+                    if (project.gitHubProject != null)
+                      Text(
+                        project.gitHubProject?.fullName ?? '',
+                        style: const TextStyle(
+                          color: AppColors.white54,
+                          fontSize: 12,
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ),
@@ -77,7 +79,7 @@ class ProjectCard extends StatelessWidget {
               Expanded(
                 flex: 2,
                 child: Text(
-                  '  ${project.gitHubProject!.formattedCreatedAt}',
+                  '  ${project.formattedCreatedAt}',
                   style: const TextStyle(
                     color: AppColors.white54,
                     fontSize: 12,
