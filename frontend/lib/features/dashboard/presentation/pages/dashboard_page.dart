@@ -5,7 +5,7 @@ import '../../../deployment_logs/presentation/deployment_logs.dart';
 import '../../../git_auth/presentation/git_auth.dart';
 import '../../../git_deployment/presentation/git_deployment.dart';
 import '../../../home/presentation/components/home_page_docker_component.dart';
-import '../../../home/presentation/components/home_page_public_git_component.dart';
+import '../../../public_git_deployment/presentation/public_git_deployment.dart';
 import '../dashboard_page_chips.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -19,7 +19,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   final List<String> _deploymentItems = [
     'GitHub',
-    'Docker Image',
+    // 'Docker Image',
     'Public Git URL'
   ];
   int _selectedIndex = 0;
@@ -31,7 +31,7 @@ class _DashboardPageState extends State<DashboardPage> {
         minHeight: MediaQuery.of(context).size.height,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(30),
+        padding: const EdgeInsets.all(15.0,),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,7 +52,7 @@ class _DashboardPageState extends State<DashboardPage> {
               style: TextStyle(color: AppColors.white54),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 15.0,),
 
             DashboardPageChips(
                 items: _deploymentItems,
@@ -64,14 +64,14 @@ class _DashboardPageState extends State<DashboardPage> {
                 }
             ),
 
-            const SizedBox(height: 20,),
+            const SizedBox(height: 15.0,),
 
             _selectedIndex == 0 ? const GitAuth() : SizedBox(),
             _selectedIndex == 0 ? const GitDeployment() : SizedBox(),
 
-            _selectedIndex == 1 ? const HomePageDockerComponent() : SizedBox(),
+            // _selectedIndex == 1 ? const HomePageDockerComponent() : SizedBox(),
 
-            _selectedIndex == 2 ? const HomePagePublicGitComponent() : SizedBox(),
+            _selectedIndex == 1 ? const PublicGitDeployment() : SizedBox(),
 
             const SizedBox(height: 20,),
 

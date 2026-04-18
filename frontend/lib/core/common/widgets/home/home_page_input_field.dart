@@ -5,12 +5,14 @@ import '../../../theme/app_colors.dart';
 class HomePageInputField extends StatelessWidget {
 
   String hint;
+  TextEditingController controller;
 
-  HomePageInputField({super.key, required this.hint,});
+  HomePageInputField({super.key, required this.hint, required this.controller,});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       style: const TextStyle(color: AppColors.white),
       decoration: InputDecoration(
         hintText: hint,

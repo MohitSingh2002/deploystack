@@ -36,6 +36,11 @@ import 'package:deploystack/features/projects/data/repositories/projects_repo_im
 import 'package:deploystack/features/projects/domain/repository/projects_repo.dart';
 import 'package:deploystack/features/projects/domain/usecases/fetch_all_projects.dart';
 import 'package:deploystack/features/projects/presentation/bloc/projects_bloc/projects_bloc.dart';
+import 'package:deploystack/features/public_git_deployment/data/data_sources/deploy_public_git_project_remote_data_source.dart';
+import 'package:deploystack/features/public_git_deployment/data/repositories/deploy_public_git_project_repo_impl.dart';
+import 'package:deploystack/features/public_git_deployment/domain/repository/deploy_public_git_project_repo.dart';
+import 'package:deploystack/features/public_git_deployment/domain/usecases/deploy_public_git_project.dart';
+import 'package:deploystack/features/public_git_deployment/presentation/bloc/public_git_deployment/public_git_deployment_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import 'features/git_deployment/data/data_sources/git_hub_repo_branch_remote_data_source.dart';
@@ -54,6 +59,7 @@ Future<void> initDependencies() async {
   _initDeploymentLogs();
   _initProjects();
   _initProjectDeploymentLogs();
+  _initPublicGitDeployment();
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
@@ -232,6 +238,26 @@ void _initProjectDeploymentLogs() {
   serviceLocator.registerLazySingleton<ProjectDeploymentLogsBloc>(
       () => ProjectDeploymentLogsBloc(
         fetchProjectDeploymentLogs: serviceLocator(),
+      )
+  );
+}
+
+void _initPublicGitDeployment() {
+  serviceLocator.registerFactory<DeployPublicGitProjectRemoteDataSource>(
+      () => DeployPublicGitProjectRemoteDataSourceImpl()
+  );
+
+  serviceLocator.registerFactory<DeployPublicGitProjectRepo>(
+      () => DeployPublicGitProjectRepoImpl(deployPublicGitProjectRemoteDataSource: serviceLocator(),)
+  );
+
+  serviceLocator.registerFactory(
+      () => DeployPublicGitProject(deployPublicGitProjectRepo: serviceLocator(),)
+  );
+
+  serviceLocator.registerLazySingleton<PublicGitDeploymentBloc>(
+      () => PublicGitDeploymentBloc(
+        deployPublicGitProject: serviceLocator(),
       )
   );
 }

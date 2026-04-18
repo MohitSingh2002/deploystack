@@ -18,6 +18,11 @@ const projectSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'GitHubProject',
         required: false
+    },
+    gitProject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'GitProject',
+      required: false
     }
 }, {
     timestamps: true

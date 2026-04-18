@@ -15,7 +15,7 @@ class HomePageDockerComponent extends StatelessWidget {
       "Deploy containers from Docker Hub.",
       child: Column(
         children: [
-          HomePageInputField(hint: "node:latest"),
+          HomePageInputField(hint: "node:latest", controller: TextEditingController(),),
           const SizedBox(height: 10),
           AppButton(
             onPressed: () {},

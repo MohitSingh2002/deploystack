@@ -55,7 +55,7 @@ class _ProjectsPageState extends State<ProjectsPage> {
             final projects = state.projectList;
 
             return Padding(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(15.0,),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

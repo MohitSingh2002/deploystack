@@ -45,9 +45,9 @@ async function findFramework(projectPath) {
     });
 }
 
-async function gitRepoDeployment(data, io, projectId, port) {
+async function gitRepoDeployment(type, data, io, projectId, port) {
     try {
-        let projectPath = await cloneGitRepo(data, io, projectId, port);
+        let projectPath = await cloneGitRepo(type, data, io, projectId, port);
 
         const framework = await findFramework(projectPath);
         console.log(`Detected Framework: ${framework}`);

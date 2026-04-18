@@ -51,11 +51,9 @@ function cloneRepo(command, args, onLog) {
   });
 }
 
-async function cloneGitRepo(data, io, projectId, port) {
+async function cloneGitRepo(type, data, io, projectId, port) {
     const BASE_DIR = path.join(__dirname, '../../../clone-repos');
     const projectPath = path.join(BASE_DIR, data.repoName);
-
-    let installationToken = await generateGitHubToken();
 
     if (!fs.existsSync(BASE_DIR)) {
         fs.mkdirSync(BASE_DIR, { recursive: true });
@@ -65,14 +63,20 @@ async function cloneGitRepo(data, io, projectId, port) {
         fs.rmSync(projectPath, { recursive: true, force: true });
     }
 
-    let cloneUrl = data.cloneUrl.replace(
-        'https://',
-        `https://x-access-token:${installationToken}@`
-    );
+    let cloneUrl = data.cloneUrl;
+
+    if (type === 'git-repo-deployment') {
+      let installationToken = await generateGitHubToken();
+
+      cloneUrl = cloneUrl.replace(
+          'https://',
+          `https://x-access-token:${installationToken}@`
+      );
+    }
 
     await cloneRepo(
         'git',
-        ['clone', '--progress', '-b', data.name, cloneUrl, projectPath],
+        type === 'git-deployment' ? ['clone', '--progress', cloneUrl, projectPath] : ['clone', '--progress', '-b', data.name, cloneUrl, projectPath],
         (log) => {
             logDeployment(log);
             io.to(KAFKA_TOPIC_DEPLOYMENT).emit(KAFKA_DEPLOYMENT_EVENT, log);

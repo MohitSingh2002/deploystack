@@ -64,21 +64,21 @@ class _HomePageState extends State<HomePage> {
                       title: 'Projects',
                       active: AppRoutes.getCurrentRoute(context: context) == AppRoutes.projects,
                     ),
-                    HomePageSideItem(
-                      icon: Icons.public,
-                      title: 'Domains',
-                      route: AppRoutes.dashboard,
-                    ),
-                    HomePageSideItem(
-                      icon: Icons.storage,
-                      title: 'Domains',
-                      route: AppRoutes.dashboard,
-                    ),
-                    HomePageSideItem(
-                      icon: Icons.settings,
-                      title: 'Settings',
-                      route: AppRoutes.dashboard,
-                    ),
+                    // HomePageSideItem(
+                    //   icon: Icons.public,
+                    //   title: 'Domains',
+                    //   route: AppRoutes.dashboard,
+                    // ),
+                    // HomePageSideItem(
+                    //   icon: Icons.storage,
+                    //   title: 'Domains',
+                    //   route: AppRoutes.dashboard,
+                    // ),
+                    // HomePageSideItem(
+                    //   icon: Icons.settings,
+                    //   title: 'Settings',
+                    //   route: AppRoutes.dashboard,
+                    // ),
 
                     const Spacer(),
                     ListTile(

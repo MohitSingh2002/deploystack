@@ -51,11 +51,11 @@ async function consumeKafka(io) {
                 console.log(`👉 Processing: ${message.offset}, ${event.type}, ${JSON.stringify(event.data)}`);
 
                 try {
-                    if (event.type === 'git-repo-deployment') {
+                    if (event.type === 'git-repo-deployment' || event.type === 'git-deployment') {
                         // await gitRepoDeployment(event.data, io);
                         clearLogs();
                         await runWithHeartbeat(
-                            () => gitRepoDeployment(event.data, io, event.projectId, event.port),
+                            () => gitRepoDeployment(event.type, event.data, io, event.projectId, event.port),
                             heartbeat
                         );
                     }
