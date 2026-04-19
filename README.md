@@ -85,14 +85,9 @@ docker compose up -d --build
 DeployStack includes a powerful, automated `install.sh` script to set up everything on a fresh Ubuntu VPS in practically zero steps. 
 
 1. SSH into your VPS.
-2. Ensure you have Git installed, then clone the repository:
+2. Run the installation script as root:
 ```bash
-git clone https://github.com/MohitSingh2002/deploystack.git
-cd deploystack
-```
-3. Run the installation script as root:
-```bash
-sudo ./install.sh
+curl -fsSL https://raw.githubusercontent.com/MohitSingh2002/deploystack/main/install.sh | sudo bash
 ```
 
 **What the script does automatically:**
