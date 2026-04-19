@@ -98,7 +98,3 @@ sudo ./install.sh
 ## 🤝 Contributing
 
 Contributions are always welcome! Feel free to open an issue or submit a Pull Request.
-
-## 📄 License
-
-This project is licensed under the MIT License.
