@@ -46,8 +46,8 @@ app.get('/', (req, res) => {
   res.send('DeployStack');
 });
 
-// Change mongo to localhost if you want to run it locally without Docker
-mongoose.connect("mongodb://mongo:27017/deploystack")
+const dbUrl = process.env.MONGO_URI;
+mongoose.connect(dbUrl)
   .then(async () => {
     console.log(`Connected to MongoDB`);
 

@@ -132,7 +132,8 @@ else
   echo -e "${GREEN}Created deploystack/frontend/.env with API_HOST=http://${PUBLIC_IP}:5001${NC}"
   
   echo "FRONTEND_URL=http://${PUBLIC_IP}:8080" > deploystack/backend/.env
-  echo -e "${GREEN}Created deploystack/backend/.env with FRONTEND_URL=http://${PUBLIC_IP}:8080${NC}"
+  echo "MONGO_URI=mongodb://admin:b2JaAqmSGNWcDSSWtnn5FthmceGHHQAL@mongo:27017/deploystack?authSource=admin" >> deploystack/backend/.env
+  echo -e "${GREEN}Created deploystack/backend/.env with FRONTEND_URL & MONGO_URI${NC}"
   
   echo -e "${YELLOW}Step 11: Starting Application with Docker Compose...${NC}"
   cd deploystack
