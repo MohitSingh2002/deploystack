@@ -131,9 +131,16 @@ else
   echo "API_HOST=http://${PUBLIC_IP}:5001" > deploystack/frontend/.env
   echo -e "${GREEN}Created deploystack/frontend/.env with API_HOST=http://${PUBLIC_IP}:5001${NC}"
   
+  RANDOM_PASS=$(curl -s "https://www.random.org/passwords/?num=1&len=32&format=plain&rnd=new")
+  if [ -z "$RANDOM_PASS" ]; then
+    RANDOM_PASS=$(openssl rand -hex 16)
+  fi
+
+  echo "MONGO_DB_PASSWORD=${RANDOM_PASS}" > deploystack/.env
+
   echo "FRONTEND_URL=http://${PUBLIC_IP}:8080" > deploystack/backend/.env
-  echo "MONGO_URI=mongodb://admin:b2JaAqmSGNWcDSSWtnn5FthmceGHHQAL@mongo:27017/deploystack?authSource=admin" >> deploystack/backend/.env
-  echo -e "${GREEN}Created deploystack/backend/.env with FRONTEND_URL & MONGO_URI${NC}"
+  echo "MONGO_URI=mongodb://admin:${RANDOM_PASS}@mongo:27017/deploystack?authSource=admin" >> deploystack/backend/.env
+  echo -e "${GREEN}Created deploystack/backend/.env with FRONTEND_URL & Secure MONGO_URI${NC}"
   
   echo -e "${YELLOW}Step 11: Starting Application with Docker Compose...${NC}"
   cd deploystack

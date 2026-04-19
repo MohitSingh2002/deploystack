@@ -43,6 +43,13 @@ cd deploystack
 ### 2. Configure Environment Variables
 If testing strictly locally, defaults will work, but you can override configurations using `.env` files.
 
+**Root Configuration (Database):**
+Create a `.env` file in the root directory to specify your secure MongoDB password for Docker Compose (if omitted, it defaults to `local_dev_password_123` for local testing).
+```bash
+# .env
+MONGO_DB_PASSWORD=your_secure_password_here
+```
+
 **Frontend Configuration:**
 Create a `.env` file inside the `frontend/` directory to point to your backend API host (defaults to `http://localhost:5001`).
 ```bash
@@ -55,7 +62,7 @@ Create a `.env` file inside the `backend/` directory.
 ```bash
 # backend/.env
 FRONTEND_URL=http://localhost:8080
-# Note: Ensure you set up GitHub App secrets for authentication features
+MONGO_URI=mongodb://admin:local_dev_password_123@mongo:27017/deploystack?authSource=admin
 ```
 
 ### 3. Spin up the Containers
@@ -89,11 +96,12 @@ sudo ./install.sh
 **What the script does automatically:**
 - Installs Docker, Docker Compose, and Node.js
 - Retrieves your server's Public IPv4 address seamlessly.
-- Dynamically generates `.env` files for both frontend and backend using your Public IP.
+- Generates a **highly secure, cryptographically random password** for your MongoDB instance so no credentials are ever hardcoded in your repository.
+- Dynamically generates `.env` files for the frontend, backend, and Docker compose stack using your Public IP and new secure password.
 - Starts the `docker-compose` stack natively.
 - Assures the required UFW firewall ports (8080 & 5001) are open.
 
-*(Security Note: Sensitive infrastructure ports including MongoDB and Kafka are securely bound to `127.0.0.1` keeping your production data completely inaccessible from the public internet).*
+*(Security Note: Sensitive infrastructure ports including MongoDB and Kafka are securely bound to `127.0.0.1` and password-protected, keeping your production data completely inaccessible from the public internet and automated botnet attacks).*
 
 ## 🤝 Contributing
 
