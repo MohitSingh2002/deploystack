@@ -6,21 +6,25 @@ DeployStack is a full-stack deployment orchestration platform that seamlessly in
 
 ## 🚀 Features
 
-- **GitHub Integration:** Authorize via GitHub Apps to fetch repositories, setup webhooks, and trigger events on pushes.
-- **Automated Deployments:** Trigger project builds and deployments effortlessly using background workers.
-- **Asynchronous Architecture:** Uses Apache Kafka to process build triggers and deployment events reliably.
-- **Real-time Monitoring:** Keep track of your deployment logs and live project statuses.
+- **GitHub Integration:** Authorize via GitHub Apps to fetch repositories, setup webhooks, and seamlessly link your codebases.
+- **Continuous Deployment (CI/CD):** Deploy a repository by specifying a target branch. Every time you push a newly crafted commit to that branch, DeployStack instantly rebuilds the project and pushes the updates live in real-time!
+- **Asynchronous Architecture:** Uses Apache Kafka to process build triggers and deployment events securely and reliably.
+- **Real-time Monitoring:** Keep track of your deployment logs and live project statuses exactly as they happen.
 - **Containerized:** Fully packaged with Docker for "one-click" local spin-ups and production environments.
 
 ## 📸 Screenshots
 
-| Dashboard | Deployment Logs |
+| Dashboard | Setup Screen |
 |-----------|-----------------|
-| ![Dashboard Placeholder](/docs/assets/dashboard.png) | ![Logs Placeholder](/docs/assets/logs.png) |
+| ![Dashboard](screenshots/dashboard_screen.png) | ![Setup Screen](screenshots/setup_screen.png) |
 
-| Setup Screen | GitHub Integration |
+| Deployments | Projects Page |
 |--------------|---------------------|
-| ![Setup Placeholder](/docs/assets/setup.png) | ![GitHub Placeholder](/docs/assets/github.png) |
+| ![Deployments](screenshots/deployment.png) | ![Projects Page](screenshots/projects_screen.png) |
+
+| Deployment Logs | |
+|-----------------|---|
+| ![Deployment Logs](screenshots/deployment_logs.png) | |
 
 ## 🏗️ Architecture Stack
 
