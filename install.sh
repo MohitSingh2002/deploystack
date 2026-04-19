@@ -119,8 +119,7 @@ docker pull ghcr.io/cirruslabs/flutter:stable
 
 echo -e "${GREEN}Flutter base image pulled successfully!${NC}"
 
-
-
+git clone -b main https://github.com/MohitSingh2002/deploystack.git
 
 echo -e "${YELLOW}Step 10: Configuring frontend .env with dynamic IPv4...${NC}"
 PUBLIC_IP=$(curl -s https://api.ipify.org || curl -s ifconfig.me)

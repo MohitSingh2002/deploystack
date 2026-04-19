@@ -1,7 +1,5 @@
 # DeployStack
 
-![Hero Image placeholder](/docs/assets/hero.png)
-
 DeployStack is a full-stack deployment orchestration platform that seamlessly integrates with GitHub to automatically fetch, deploy, and manage your repositories. It features a responsive Flutter-based frontend for monitoring deployments, a powerful Node.js backend, and relies on MongoDB and Apache Kafka to handle robust asynchronous event messaging.
 
 ## 🚀 Features
