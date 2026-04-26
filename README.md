@@ -1,5 +1,7 @@
 # DeployStack
 
+<a href="https://www.producthunt.com/products/deploystack-2?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-deploystack-2" target="_blank" rel="noopener noreferrer"><img alt="DeployStack - Open-source, self-hosted alternative to Vercel and Render | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1127320&amp;theme=light&amp;t=1777185215657"></a>
+
 DeployStack is a full-stack deployment orchestration platform that seamlessly integrates with GitHub to automatically fetch, deploy, and manage your repositories. It features a responsive Flutter-based frontend for monitoring deployments, a powerful Node.js backend, and relies on MongoDB and Apache Kafka to handle robust asynchronous event messaging.
 
 ## 🚀 Features
