@@ -30,7 +30,7 @@ echo -e "${YELLOW}Step 2: Installing dependencies...${NC}"
 apt-get install -y \
   -o Dpkg::Options::="--force-confdef" \
   -o Dpkg::Options::="--force-confold" \
-  ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common nginx certbot python3-certbot-nginx
+  ca-certificates curl gnupg lsb-release apt-transport-https software-properties-common
 
 # echo -e "${YELLOW}Step 2.1: Installing Git...${NC}"
 # apt-get install -y \

@@ -23,6 +23,8 @@ customDomainRouter.post('/v1/connect-domain', async (req, res) => {
 
         let finalDomain = subdomain.trim() === '' ? domain.trim() : `${subdomain.trim()}.${domain.trim()}`;
 
+        await fs.mkdir('/etc/nginx/sites-available', { recursive: true });
+        await fs.mkdir('/etc/nginx/sites-enabled', { recursive: true });
         await fs.writeFile(
             `/etc/nginx/sites-available/${finalDomain}`,
             generateNginxConfig(finalDomain, project.port, subdomain.trim() !== ''),
