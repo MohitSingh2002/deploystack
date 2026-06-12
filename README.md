@@ -6,11 +6,16 @@ DeployStack is a full-stack deployment orchestration platform that seamlessly in
 
 ## 🚀 Features
 
-- **GitHub Integration:** Authorize via GitHub Apps to fetch repositories, setup webhooks, and seamlessly link your codebases.
+- **GitHub Integration:** Authorize via GitHub Apps to fetch repositories, setup webhooks, and seamlessly link your codebases. Uses GitHub's App Manifest flow so no manual app registration is needed.
+- **Public Git URL Deployment:** Deploy any publicly accessible Git repository by providing its clone URL — no GitHub account required.
 - **Continuous Deployment (CI/CD):** Deploy a repository by specifying a target branch. Every time you push a newly crafted commit to that branch, DeployStack instantly rebuilds the project and pushes the updates live in real-time!
-- **Asynchronous Architecture:** Uses Apache Kafka to process build triggers and deployment events securely and reliably.
-- **Real-time Monitoring:** Keep track of your deployment logs and live project statuses exactly as they happen.
-- **Containerized:** Fully packaged with Docker for "one-click" local spin-ups and production environments.
+- **Framework Auto-Detection:** Automatically detects the project framework using Nixpacks and deploys accordingly — supports **Node.js** (via Nixpacks buildpacks) and **Flutter Web / Dart** (via Dockerfile + `flutter build web`). No Dockerfile needed from the user.
+- **Custom Domains with Auto SSL:** Attach a custom domain or subdomain to any deployed project. DeployStack automatically configures Nginx as a reverse proxy and provisions a Let's Encrypt SSL certificate via Certbot.
+- **Asynchronous Architecture:** Uses Apache Kafka (KRaft mode, no ZooKeeper) to process build triggers and deployment events securely and reliably.
+- **Real-time Streaming Logs:** Live deployment logs are streamed to the dashboard via Socket.IO as they happen.
+- **Persistent Deployment History:** Every deployment log is gzip-compressed and stored in MongoDB. Review historical logs for any project at any time.
+- **Project Management:** View all your deployed projects, their assigned ports, and access logs from a single dashboard.
+- **Containerized:** Fully packaged with Docker for "one-click" local spin-ups and production environments. Each deployment runs in its own isolated Docker container.
 
 ## 📸 Screenshots
 
@@ -22,17 +27,18 @@ DeployStack is a full-stack deployment orchestration platform that seamlessly in
 |--------------|---------------------|
 | ![Deployments](screenshots/deployment.png) | ![Projects Page](screenshots/projects_screen.png) |
 
-| Deployment Logs | |
-|-----------------|---|
-| ![Deployment Logs](screenshots/deployment_logs.png) | |
+| Deployment Logs | Custom Domain |
+|-----------------|--------------|
+| ![Deployment Logs](screenshots/deployment_logs.png) | ![Custom Domain](screenshots/custom_domain.png) |
 
 ## 🏗️ Architecture Stack
 
-- **Frontend:** Flutter Web (served via Nginx)
-- **Backend:** Node.js (Express.js)
+- **Frontend:** Flutter Web (served via Nginx) — uses `flutter_bloc` for state management, `go_router` for navigation, and Clean Architecture with `get_it` DI.
+- **Backend:** Node.js (Express.js v5, Mongoose v9, Socket.IO v2) — REST API + WebSocket for real-time streaming.
 - **Database:** MongoDB 6
-- **Event Streaming:** Apache Kafka
-- **Orchestration:** Docker & Docker Compose
+- **Event Streaming:** Apache Kafka (KRaft mode, no ZooKeeper)
+- **Build System:** Nixpacks (auto-detects framework, builds Docker images without a Dockerfile)
+- **Orchestration:** Docker & Docker Compose (sibling containers per deployment via Docker socket)
 
 ## 💻 Running Locally
 
