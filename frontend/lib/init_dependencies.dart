@@ -10,6 +10,11 @@ import 'package:deploystack/features/auth/domain/repository/auth_repository.dart
 import 'package:deploystack/features/auth/domain/usecases/current_user.dart';
 import 'package:deploystack/features/auth/domain/usecases/user_sign_up.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:deploystack/features/custom_domain/data/data_sources/connect_domain_remote_data_source.dart';
+import 'package:deploystack/features/custom_domain/data/repositories/connect_domain_repo_impl.dart';
+import 'package:deploystack/features/custom_domain/domain/repository/connect_domain_repo.dart';
+import 'package:deploystack/features/custom_domain/domain/usecases/connect_domain_with_project.dart';
+import 'package:deploystack/features/custom_domain/presentation/bloc/custom_domain_bloc/custom_domain_bloc.dart';
 import 'package:deploystack/features/deployment_logs/data/data_sources/deployment_socket_remote_data_source.dart';
 import 'package:deploystack/features/deployment_logs/data/repositories/deployment_logs_repository_impl.dart';
 import 'package:deploystack/features/deployment_logs/domain/repository/deployment_logs_repository.dart';
@@ -60,6 +65,7 @@ Future<void> initDependencies() async {
   _initProjects();
   _initProjectDeploymentLogs();
   _initPublicGitDeployment();
+  _initCustomDomain();
 
   serviceLocator.registerLazySingleton(() => AppUserCubit());
 }
@@ -258,6 +264,26 @@ void _initPublicGitDeployment() {
   serviceLocator.registerLazySingleton<PublicGitDeploymentBloc>(
       () => PublicGitDeploymentBloc(
         deployPublicGitProject: serviceLocator(),
+      )
+  );
+}
+
+void _initCustomDomain() {
+  serviceLocator.registerFactory<ConnectDomainRemoteDataSource>(
+      () => ConnectDomainRemoteDataSourceImpl()
+  );
+
+  serviceLocator.registerFactory<ConnectDomainRepo>(
+      () => ConnectDomainRepoImpl(connectDomainRemoteDataSource: serviceLocator(),)
+  );
+
+  serviceLocator.registerFactory(
+      () => ConnectDomainWithProject(connectDomainRepo: serviceLocator(),)
+  );
+
+  serviceLocator.registerLazySingleton<CustomDomainBloc>(
+      () => CustomDomainBloc(
+        connectDomainWithProject: serviceLocator(),
       )
   );
 }

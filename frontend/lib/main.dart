@@ -4,6 +4,7 @@ import 'package:deploystack/core/theme/app_theme.dart';
 import 'package:deploystack/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:deploystack/features/git_auth/presentation/bloc/git_auth/git_auth_bloc.dart';
 import 'package:deploystack/router.dart';
+import 'features/custom_domain/presentation/bloc/custom_domain_bloc/custom_domain_bloc.dart';
 import 'features/deployment_logs/presentation/bloc/deployment_logs/deployment_logs_bloc.dart';
 import 'features/git_deployment/presentation/bloc/git_deployment/git_deployment_bloc.dart';
 import 'features/projects/presentation/bloc/projects_bloc/projects_bloc.dart';
@@ -27,6 +28,7 @@ void main() async {
           BlocProvider(create: (_) => serviceLocator<ProjectsBloc>()),
           BlocProvider(create: (_) => serviceLocator<ProjectDeploymentLogsBloc>()),
           BlocProvider(create: (_) => serviceLocator<PublicGitDeploymentBloc>()),
+          BlocProvider(create: (_) => serviceLocator<CustomDomainBloc>()),
         ],
         child: const MyApp(),
       )
