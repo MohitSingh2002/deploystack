@@ -38,7 +38,7 @@ customDomainRouter.post('/v1/connect-domain', async (req, res) => {
 
         await runCommand('sudo', ['nginx', '-t']);
 
-        await runCommand('sudo', ['systemctl', 'reload', 'nginx']);
+        await runCommand('sudo', ['nginx', '-s', 'reload']);
 
         let certbotArgs = [
             'certbot',
@@ -68,7 +68,7 @@ function generateNginxConfig(domain, port, isSubdomainAvailable) {
     server_name <domain>;
 
     location / {
-        proxy_pass http://localhost:<port>;
+        proxy_pass http://host.docker.internal:<port>;
 
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;

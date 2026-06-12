@@ -13,13 +13,17 @@ services:
   backend:
     build: ./backend
     container_name: node_backend
-    ports:
-      - "5001:5001"
     depends_on:
       - mongo
       - kafka
     env_file:
       - ./backend/.env
+    ports:
+      - "5001:5001"
+      - "80:80"
+      - "443:443"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
