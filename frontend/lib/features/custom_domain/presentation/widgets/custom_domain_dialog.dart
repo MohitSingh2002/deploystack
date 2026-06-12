@@ -241,7 +241,7 @@ class _CustomDomainDialogState extends State<CustomDomainDialog> {
         ),
         const SizedBox(height: 16),
         Text(
-          'Upon doing this, click Save',
+          'Upon doing this, click Save (Please wait 5 minutes before clicking Save)',
           style: TextStyle(
             color: AppColors.white38,
             fontSize: 13,

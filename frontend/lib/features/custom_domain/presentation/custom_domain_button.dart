@@ -4,6 +4,7 @@ import 'package:deploystack/features/custom_domain/presentation/widgets/custom_d
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'bloc/custom_domain_bloc/custom_domain_bloc.dart';
 
@@ -30,11 +31,10 @@ class _CustomDomainButtonState extends State<CustomDomainButton> {
   bool get _hasDomain => _hasConnectedDomain || widget.domain.isNotEmpty;
 
   Future<void> _onPressed() async {
+    print('Domain : ${widget.domain}');
+    print('Subdomain : ${widget.subdomain}');
     if (_hasDomain) {
-      showSnackBar(
-        context: context,
-        content: 'Domain already configured for this project',
-      );
+      await launchUrl(Uri.https(widget.subdomain.isEmpty ? widget.domain : '${widget.subdomain}.${widget.domain}'), webOnlyWindowName: '_blank');
       return;
     }
 
@@ -72,10 +72,9 @@ class _CustomDomainButtonState extends State<CustomDomainButton> {
           (current is CustomDomainLoadingState && current.projectId == widget.projectId),
       builder: (context, state) {
         if (state is CustomDomainLoadingState && state.projectId == widget.projectId) {
-          return const SizedBox(
-            width: 20,
-            height: 20,
-            child: CircularProgressIndicator(
+          return const IconButton(
+            onPressed: null,
+            icon: CircularProgressIndicator(
               strokeWidth: 2,
               color: AppColors.white,
             ),
