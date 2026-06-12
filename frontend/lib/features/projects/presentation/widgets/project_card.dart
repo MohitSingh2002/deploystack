@@ -1,3 +1,4 @@
+import 'package:deploystack/features/custom_domain/presentation/custom_domain_button.dart';
 import 'package:deploystack/features/projects/domain/entities/project.dart';
 import 'package:flutter/material.dart';
 
@@ -76,14 +77,28 @@ class ProjectCard extends StatelessWidget {
               ),
 
               const Spacer(),
+
               Expanded(
                 flex: 2,
-                child: Text(
-                  '  ${project.formattedCreatedAt}',
-                  style: const TextStyle(
-                    color: AppColors.white54,
-                    fontSize: 12,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 1.0,),
+                  child: Text(
+                    '  ${project.formattedCreatedAt}',
+                    style: const TextStyle(
+                      color: AppColors.white54,
+                      fontSize: 12,
+                    ),
                   ),
+                ),
+              ),
+
+              const Spacer(),
+
+              Expanded(
+                child: CustomDomainButton(
+                  projectId: project.id,
+                  domain: project.domain,
+                  subdomain: project.subdomain,
                 ),
               ),
             ],

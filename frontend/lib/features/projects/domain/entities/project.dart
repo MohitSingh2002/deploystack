@@ -5,6 +5,8 @@ class Project {
   final String name;
   final String type;
   final String port;
+  final String domain;
+  final String subdomain;
   final DateTime createdAt;
   final GitHubProject? gitHubProject;
 
@@ -13,6 +15,8 @@ class Project {
     required this.name,
     required this.type,
     required this.port,
+    required this.domain,
+    required this.subdomain,
     required this.createdAt,
     this.gitHubProject
   });

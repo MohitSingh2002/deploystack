@@ -98,6 +98,8 @@ class _ProjectsPageState extends State<ProjectsPage> {
                           style: TextStyle(color: AppColors.white38, fontSize: 12),
                         ),
                       ),
+                      Spacer(),
+                      Expanded(child: SizedBox(),),
                     ],
                   ),
 

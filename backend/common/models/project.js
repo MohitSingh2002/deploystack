@@ -14,6 +14,16 @@ const projectSchema = mongoose.Schema({
         required: false,
         default: ''
     },
+    domain: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    subdomain: {
+      type: String,
+      required: false,
+      default: ''
+    },
     gitHubProject: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'GitHubProject',

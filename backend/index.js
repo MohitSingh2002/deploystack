@@ -18,6 +18,7 @@ const githubBranchesRouter = require('./features/github_repositories/routes/v1/g
 const deploymentRouter = require('./features/deployment/routes/v1/deployment');
 const projectRouter = require('./features/project/routes/v1/project');
 const projectDeploymentLogsRouter = require('./features/project_deployment_logs/routes/v1/project_deployment_logs');
+const customDomainRouter = require('./features/connect_domain/routes/v1/connect_domain');
 
 const app = express();
 var server = http.createServer(app);
@@ -39,6 +40,7 @@ app.use('/api', githubBranchesRouter);
 app.use('/api', deploymentRouter);
 app.use('/api', projectRouter);
 app.use('/api', projectDeploymentLogsRouter);
+app.use('/api', customDomainRouter);
 
 const PORT = 5001;
 
